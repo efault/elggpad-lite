@@ -2,12 +2,12 @@
   //End of auth
 
 
-  $full = elgg_extract('full_view', $vars, FALSE);
-  $etherpad = elgg_extract('entity', $vars, FALSE);
+	$full = elgg_extract('full_view', $vars, FALSE);
+	$etherpad = elgg_extract('entity', $vars, FALSE);
 
-  if (!$etherpad) {
-	return;
-  }
+	if (!$etherpad) {
+		return;
+	}
 
     $owner = $etherpad->getOwnerEntity();
     $owner_icon = elgg_view_entity_icon($owner, 'tiny');
@@ -46,87 +46,89 @@
         // Etherpad: Create an instance
         $apikey = elgg_get_plugin_setting('etherpad_key', 'etherpad');
         $apiurl = elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/api";
-  	$instance = new EtherpadLiteClient($apikey,$apiurl);
+		$instance = new EtherpadLiteClient($apikey,$apiurl);
   
-  	//Etherpad: Create a group for logged in user
-  	try { 
-   	   $mappedGroup = $instance->createGroupIfNotExistsFor(elgg_get_page_owner_entity()->guid); //elgg_get_page_owner_entity()->guid;
-   	   $groupID = $mappedGroup->groupID;
-  	} catch (Exception $e) {echo $e.getMessage();}
+		//Etherpad: Create a group for logged in user
+		try { 
+			$mappedGroup = $instance->createGroupIfNotExistsFor(elgg_get_page_owner_entity()->guid); //elgg_get_page_owner_entity()->guid;
+			$groupID = $mappedGroup->groupID;
+		} catch (Exception $e) {echo $e.getMessage();}
 
-  	//Etherpad: Create an author(etherpad user) for logged in user
-  	try {
+		//Etherpad: Create an author(etherpad user) for logged in user
+		try {
     	   $author = $instance->createAuthorIfNotExistsFor(get_loggedin_user()->username);
     	   $authorID = $author->authorID;
-  	} catch (Exception $e) {
+		} catch (Exception $e) {
     	  echo "\n\ncreateAuthorIfNotExistsFor Failed with message ". $e->getMessage();
-  	}
-  	//Etherpad: Create session
-  	$validUntil = mktime(0, 0, 0, date("m"), date("d")+1, date("y")); // One day in the future
-  	$sessionID = $instance->createSession($groupID, $authorID, $validUntil);
-  	$sessionID = $sessionID->sessionID;
-  	//setcookie("sessionID",$sessionID); // Set a cookie
-	$padpath = $etherpad->paddress;
- 	$padpath .= "?userName=" . get_loggedin_user()->username;
-	//controls
-	if (elgg_get_plugin_setting('show_controls', 'etherpad') == 'no') {
+		}
+		
+		//Etherpad: Create session
+		$validUntil = mktime(0, 0, 0, date("m"), date("d")+1, date("y")); // One day in the future
+		$sessionID = $instance->createSession($groupID, $authorID, $validUntil);
+		$sessionID = $sessionID->sessionID;
+		//setcookie("sessionID",$sessionID); // Set a cookie
+		$padpath = $etherpad->paddress;
+		$padpath .= "?userName=" . get_loggedin_user()->username;
+		//controls
+		if (elgg_get_plugin_setting('show_controls', 'etherpad') == 'no') {
     	    $padpath .= "&showControls=false";
     	} else {
-	    $padpath .= "&showControls=true";
-	}
+			$padpath .= "&showControls=true";
+		}
 	
-	//monospace font
-	if (elgg_get_plugin_setting('monospace_font', 'etherpad') == 'no') {
+		//monospace font
+		if (elgg_get_plugin_setting('monospace_font', 'etherpad') == 'no') {
     	    $padpath .= "&useMonospaceFont=false";
     	} else {
-	    $padpath .= "&useMonospaceFont=true";
-	}
+			$padpath .= "&useMonospaceFont=true";
+		}
 
-	//chat
+		//chat
     	if (elgg_get_plugin_setting('show_chat', 'etherpad') == 'no') {
     	    $padpath .= "&showChat=false";
     	} else {
-	    $padpath .= "&showChat=true";
-	}
+			$padpath .= "&showChat=true";
+		}
 
     	//line numbers
     	if (elgg_get_plugin_setting('line_numbers', 'etherpad') == 'no') {
     		$padpath .= "&showLineNumbers=false";
     	} else {
-		$padpath .= "&showLineNumbers=true";
-	}	
+			$padpath .= "&showLineNumbers=true";
+		}	
 		
-	setcookie('sessionID', $sessionID, $validUntil, '/', '127.0.0.1');	
-	$params = array(		
-		'entity' => $etherpad,
-		'metadata' => $metadata,
-		'subtitle' => $subtitle,
-		'title' => $title,
-		'filter' => false,
-		'tags' => false,
-		);
-	$list_body = elgg_view('object/elements/summary', $params);
-	$content .= elgg_view_image_block($owner_icon, $list_body);
-	$content .= elgg_view('output/iframe', array('value' => $padpath, 'type' => "etherpad"));
-  	echo $content;
+		setcookie('sessionID', $sessionID); //, $validUntil, '/', '127.0.0.1');	
+		$params = array(		
+			'entity' => $etherpad,
+			'metadata' => $metadata,
+			'subtitle' => $subtitle,
+			'title' => $title,
+			'filter' => false,
+			'tags' => false,
+			);
+		$list_body = elgg_view('object/elements/summary', $params);
+		$content .= elgg_view_image_block($owner_icon, $list_body);
+		$content .= elgg_view('output/iframe', array('value' => $padpath, 'type' => "etherpad"));
+		echo $content;
+		
     } else {
 
-	$url = $etherpad->address;
-	$display_text = $url;
-	$excerpt = elgg_get_excerpt($etherpad->description);
+		$url = $etherpad->address;
+		$display_text = $url;
+		$excerpt = elgg_get_excerpt($etherpad->description);
 
         $content = $excerpt;
-	$params = array(
-		'entity' => $etherpad,
-		'metadata' => $metadata,
-		'subtitle' => $subtitle,
-		'content' => $content,
-		'tags' => false,
-	);
-	$params = $params + $vars;
-	$body = elgg_view('object/elements/summary', $params);
+		$params = array(
+			'entity' => $etherpad,
+			'metadata' => $metadata,
+			'subtitle' => $subtitle,
+			'content' => $content,
+			'tags' => false,
+		);
+		$params = $params + $vars;
+		$body = elgg_view('object/elements/summary', $params);
 	
-	echo elgg_view_image_block($owner_icon, $body);
+		echo elgg_view_image_block($owner_icon, $body);
 
     }           
 ?>

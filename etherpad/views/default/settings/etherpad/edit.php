@@ -6,10 +6,10 @@
 // set default value
 
 if (!isset($vars['entity']->etherpad_host)) {
-	$vars['entity']->etherpad_host = "http://127.0.0.1:9001";
+	$vars['entity']->etherpad_host = "http://beta.etherpad.org";
 }
 if (!isset($vars['entity']->etherpad_key)) {
-	$vars['entity']->etherpad_key = 'ZcSfOB0J71SHqLS4hCVorSQXb9mQd2ff';
+	$vars['entity']->etherpad_key = 'EtherpadFTW';
 }
 if (!isset($vars['entity']->show_chat)) {
 	$vars['entity']->show_chat = 'no';
