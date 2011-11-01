@@ -10,11 +10,12 @@ Install:
 	Enable plugin from admin settings.
 
 Configure:
-	Etherpad Lite host address (the address you use to connect to your etherpad service) If you have Etherpad Lite 
-		installed locally the address will be something like http://127.0.0.1:9001 (localhost, port 9001)
-	Etherpad Lite API key, this is your unique key used to interact with the etherpad api, sort of like a password. 
-		The plugin needs this to function correctly, you can find your api key in etherpad lites root directory in a text file 
-		called APIKEY.txt
+	Etherpad Lite host address (the address you use to connect to your etherpad service) If you have 
+		Etherpad Lite installed locally the address will be something like http://127.0.0.1:9001 
+		(localhost, port 9001)
+	Etherpad Lite API key, this is your unique key used to interact with the etherpad api, sort of 
+		like a password. The plugin needs this to function correctly, you can find your api key in 
+		etherpad lites root directory in a text file called APIKEY.txt
 	New pad text, this is the text that will be added to each new pad.
 	Show controls, show/hide etherpad lites control bar.
 	Show chat, show/hide etherpad lites built in chat service.
