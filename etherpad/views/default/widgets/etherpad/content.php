@@ -5,7 +5,7 @@
  * @package etherpad
  */
 
-$max = (int) $vars['entity']->num_display;
+$max = (int) $vars['entity']->max_display;
 
 $options = array(
 	'type' => 'object',
