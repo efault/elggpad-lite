@@ -1,5 +1,6 @@
 0.5.3
 Fixed widget settings, max display actually works now.
+Added changelog, todo, and license.
 
 0.5.2
 Fixed permissions broken in 0.5.1

@@ -29,8 +29,12 @@ Notes:
 	All pads are currently public, this will be fixed in a later release. 
 	Etherpad Lite is not included in the plugin, you need to install and configure it seperatly.
 
-Todo: Group pads, private pads, sessions.  
-
+Changes:
+	Fixed widget settings, max display actually works now.
+	
+TODO:
+	Sessions, private pads, group pads.
+	
 License:
 	elggpad-lite, Etherpad Lite integration for elgg 1.8
 	Copyright (C) 2011 Luke Williams
