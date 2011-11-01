@@ -45,7 +45,7 @@
 	//TODO : Access control, private pads. 
   try {
 	$instance->createGroupPad($groupID,$name, elgg_get_plugin_setting('new_pad_text', 'etherpad'));
-	$instance->setPublicStatus($padID,"false");
+	$instance->setPublicStatus($padID,"true");
   } catch (Exception $e) {
   	echo "\n\ncreatePad Failed with message ". $e->getMessage();
   }

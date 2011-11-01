@@ -1,4 +1,4 @@
-elggpad-lite v0.5.1
+elggpad-lite v0.5.2
 
 Requires:
 	elgg 1.8 http://elgg.org/download.php
@@ -23,7 +23,7 @@ Configure:
 	Use monospace font.
 	Show comments, show/hide elgg comments on etherpads.
 	
-	Language: Text can be changed in [elgg-mod-dir]/etherpad/language/en.php
+	Language: Text can be changed in [elgg-mod-dir]/etherpad/languages/en.php
 	
 Notes: 
 	All pads are currently public, this will be fixed in a later release. 
