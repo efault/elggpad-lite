@@ -1,0 +1,10 @@
+0.5.3
+Fixed widget settings, max display actually works now.
+
+0.5.2
+Fixed permissions broken in 0.5.1
+
+0.5.1
+Added etherpad lites beta api info as default host address/api key.
+Updated README to include more details about installion and configuration.
+Fixed a few minor bugs and tidied up code (a little). 

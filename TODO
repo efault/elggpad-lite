@@ -1,0 +1,15 @@
+TODO:
+
+Major:
+	Sessions, Currently not successfully passing sessionID through to 
+		etherpad lite server, causing failed authentication.
+	Private pads, Requires successfull authentication with etherpad lite.
+	Group pads, Requires successfull authentication with etherpad lite, 
+		fix group ownership of pads (elgg), fix group module.
+
+Minor:
+	Add pad description to etherpad page. As a comment?
+	
+Thinking about:
+	Feature: Save button, Saves current pad contents to blog/page. 
+		(Will require blog and/or page plugins to be activated) 
