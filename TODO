@@ -8,7 +8,7 @@ Major:
 		fix group ownership of pads (elgg), fix group module.
 
 Minor:
-	Add pad description to etherpad page. As a comment?
+	
 	
 Thinking about:
 	Feature: Save button, Saves current pad contents to blog/page. 

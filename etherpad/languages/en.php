@@ -36,7 +36,7 @@ $english = array(
 	'etherpad:enabletherpads' => 'Enable group etherpads',
 	'etherpad:nogroup' => 'This group does not have any etherpads yet',
 	'etherpad:more' => 'More etherpads',
-
+	'etherpad:description' => 'Description',
 	'etherpad:no_title' => 'No title',
 
 	/**

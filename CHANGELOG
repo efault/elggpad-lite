@@ -1,3 +1,6 @@
+0.5.4
+Added pad description to etherpad page.
+
 0.5.3
 Fixed widget settings, max display actually works now.
 Added changelog, todo, and license.

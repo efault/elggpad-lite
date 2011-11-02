@@ -1,6 +1,4 @@
 <?php 
-  //End of auth
-
 
 	$full = elgg_extract('full_view', $vars, FALSE);
 	$etherpad = elgg_extract('entity', $vars, FALSE);
@@ -31,7 +29,7 @@
 
     // do not show the metadata and controls in widget view
     if (elgg_in_context('widgets')) {
-	$metadata = '';
+		$metadata = '';
     }
 	
     $title = $etherpad->title;
@@ -110,7 +108,9 @@
 		$content .= elgg_view_image_block($owner_icon, $list_body);
 		$content .= elgg_view('output/iframe', array('value' => $padpath, 'type' => "etherpad"));
 		echo $content;
-		
+		$desctitle = elgg_echo('etherpad:description');
+		echo "<p></p><h3>$desctitle</h3><div class=\"elgg-content\">$etherpad->description</div></p>";
+
     } else {
 
 		$url = $etherpad->address;
