@@ -30,7 +30,7 @@ Notes:
 	Etherpad Lite is not included in the plugin, you need to install and configure it seperatly.
 
 Changes:
-	Fixed widget settings, max display actually works now.
+	Added pad description to etherpad page.
 	
 TODO:
 	Sessions, private pads, group pads.
