@@ -108,8 +108,12 @@
 		$content .= elgg_view_image_block($owner_icon, $list_body);
 		$content .= elgg_view('output/iframe', array('value' => $padpath, 'type' => "etherpad"));
 		echo $content;
-		$desctitle = elgg_echo('etherpad:description');
-		echo "<p></p><h3>$desctitle</h3><div class=\"elgg-content\">$etherpad->description</div></p>";
+		
+		//Display description if it exists.
+		if($etherpad->description){
+			$desctitle = elgg_echo('etherpad:description');
+			echo "<p></p><h3>$desctitle</h3><div class=\"elgg-content\">$etherpad->description</div></p>";
+		}
 
     } else {
 

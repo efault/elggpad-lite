@@ -1,4 +1,7 @@
 0.5.4
+Added spanish translation file, languages/es.php, thanks Antonio Arebalo
+	for translating. 
+Better translation support. 
 Added pad description to etherpad page.
 
 0.5.3

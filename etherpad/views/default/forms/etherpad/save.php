@@ -10,15 +10,15 @@ $message = elgg_echo("etherpad:access:message");
 ?>
 
 <div>
-    <label><?php echo elgg_echo("title"); ?></label><br />
+    <label><?php echo elgg_echo('etherpad:edit:title'); ?></label><br />
     <?php echo elgg_view('input/text',array('internalname' => 'title', 'value' => $title)); ?>
 </div>
 <div>
-    <label><?php echo elgg_echo("description"); ?></label><br />
+    <label><?php echo elgg_echo('etherpad:edit:desc'); ?></label><br />
     <?php echo elgg_view('input/text',array('internalname' => 'description', 'value' => $desc)); ?>
 </div> 
 <div>
-    <label><?php echo elgg_echo("tags"); ?></label><br />
+    <label><?php echo elgg_echo('etherpad:edit:tags'); ?></label><br />
     <?php echo elgg_view('input/tags',array('internalname' => 'tags', 'value' => $tags)); ?>
 </div>
 <?php

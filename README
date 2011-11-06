@@ -23,14 +23,20 @@ Configure:
 	Use monospace font.
 	Show comments, show/hide elgg comments on etherpads.
 	
-	Language: Text can be changed in [elgg-mod-dir]/etherpad/languages/en.php
+	Supported languages: English, Spanish.
 	
 Notes: 
 	All pads are currently public, this will be fixed in a later release. 
-	Etherpad Lite is not included in the plugin, you need to install and configure it seperatly.
+	Etherpad Lite is not included in the plugin, you need to install and configure it separately.
 
 Changes:
+	Added spanish translation file, languages/es.php, thanks Antonio Arebalo
+		for translating. 
+	Better translation support. 
 	Added pad description to etherpad page.
+	
+Thanks:
+	Thanks Antonio Arebalo for spanish translation.
 	
 TODO:
 	Sessions, private pads, group pads.
