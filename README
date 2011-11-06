@@ -30,12 +30,10 @@ Notes:
 	Etherpad Lite is not included in the plugin, you need to install and configure it separately.
 
 Changes:
-	Added spanish translation file, languages/es.php, thanks Antonio Arebalo
-		for translating. 
+	Added spanish translation file, languages/es.php
 	Better translation support. 
 	Added pad description to etherpad page.
 	
-Thanks:
 	Thanks Antonio Arebalo for spanish translation.
 	
 TODO:
