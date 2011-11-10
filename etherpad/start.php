@@ -66,7 +66,7 @@ function etherpad_page_handler($segments) {
 			break;
 
 		case "view":
-			gatekeeper();
+			//gatekeeper();
 			set_input('guid', $segments[1]);
 			include dirname(__FILE__) . '/pages/etherpad/view.php';
 			break;
@@ -84,7 +84,7 @@ function etherpad_page_handler($segments) {
 }
 
 /**
- * Add likes to entity menu at end of the menu
+ * Add fullscreen to entity menu
  */
 function etherpad_entity_menu($hook, $type, $return, $params) {
 	if (elgg_in_context('widgets')) {

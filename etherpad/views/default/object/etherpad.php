@@ -6,7 +6,43 @@
 	if (!$etherpad) {
 		return;
 	}
-
+	
+	if ($full) {
+		if(isloggedin()){
+			global $CONFIG;
+	        $eclient = $CONFIG->pluginspath . "etherpad/classes/etherpad-lite-client.php";
+	        include $eclient;
+	  
+	        // Etherpad: Create an instance
+	        $apikey = elgg_get_plugin_setting('etherpad_key', 'etherpad');
+	        $apiurl = elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/api";
+			$instance = new EtherpadLiteClient($apikey,$apiurl);
+	  
+			//Etherpad: Create a group for logged in user
+			try { 
+				$mappedGroup = $instance->createGroupIfNotExistsFor("elggpad");//(get_loggedin_user()->username); 
+				$groupID = $mappedGroup->groupID;
+			} catch (Exception $e) {echo $e.getMessage();}
+	
+			//Etherpad: Create an author(etherpad user) for logged in user
+			try {
+	    	   $author = $instance->createAuthorIfNotExistsFor(get_loggedin_user()->username);
+	    	   $authorID = $author->authorID;
+			} catch (Exception $e) {
+	    	  echo "\n\ncreateAuthorIfNotExistsFor Failed with message ". $e->getMessage();
+			}
+			
+			//Etherpad: Create session
+			$validUntil = mktime(date("H"), date("i")+5, 0, date("m"), date("d"), date("y")); // 5 minutes in the future
+			$sessionID = $instance->createSession($groupID, $authorID, $validUntil);
+			$sessionID = $sessionID->sessionID;
+			
+			if(setcookie('sessionID', $sessionID, $validUntil, '/')){
+				
+			}
+		}
+	}
+	
     $owner = $etherpad->getOwnerEntity();
     $owner_icon = elgg_view_entity_icon($owner, 'tiny');
     $container = $etherpad->getContainerEntity();
@@ -35,38 +71,14 @@
     $title = $etherpad->title;
 
     if($full){
-	// Etherpad auth
-        // Etherpad: include class
-        global $CONFIG;
-        $eclient = $CONFIG->pluginspath . "etherpad/classes/etherpad-lite-client.php";
-        include $eclient;
-  
-        // Etherpad: Create an instance
-        $apikey = elgg_get_plugin_setting('etherpad_key', 'etherpad');
-        $apiurl = elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/api";
-		$instance = new EtherpadLiteClient($apikey,$apiurl);
-  
-		//Etherpad: Create a group for logged in user
-		try { 
-			$mappedGroup = $instance->createGroupIfNotExistsFor(elgg_get_page_owner_entity()->guid); //elgg_get_page_owner_entity()->guid;
-			$groupID = $mappedGroup->groupID;
-		} catch (Exception $e) {echo $e.getMessage();}
-
-		//Etherpad: Create an author(etherpad user) for logged in user
-		try {
-    	   $author = $instance->createAuthorIfNotExistsFor(get_loggedin_user()->username);
-    	   $authorID = $author->authorID;
-		} catch (Exception $e) {
-    	  echo "\n\ncreateAuthorIfNotExistsFor Failed with message ". $e->getMessage();
-		}
-		
-		//Etherpad: Create session
-		$validUntil = mktime(0, 0, 0, date("m"), date("d")+1, date("y")); // One day in the future
-		$sessionID = $instance->createSession($groupID, $authorID, $validUntil);
-		$sessionID = $sessionID->sessionID;
-		//setcookie("sessionID",$sessionID); // Set a cookie
+		$argcount = 0;
 		$padpath = $etherpad->paddress;
-		$padpath .= "?userName=" . get_loggedin_user()->username;
+		//$padpath .= "?sessionID=" . $sessionID;
+		if (isloggedin()){	
+			$padpath .= "?userName=" . get_loggedin_user()->username;
+		} else {
+			$padpath .= "?userName=undefined";
+		}
 		//controls
 		if (elgg_get_plugin_setting('show_controls', 'etherpad') == 'no') {
     	    $padpath .= "&showControls=false";
@@ -95,7 +107,7 @@
 			$padpath .= "&showLineNumbers=true";
 		}	
 		
-		setcookie('sessionID', $sessionID); //, $validUntil, '/', '127.0.0.1');	
+	
 		$params = array(		
 			'entity' => $etherpad,
 			'metadata' => $metadata,

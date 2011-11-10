@@ -6,7 +6,7 @@ $tags = elgg_extract('tags', $vars, '');
 $access_id = elgg_extract('access_id', $vars, ACCESS_DEFAULT);
 $container_guid = elgg_extract('container_guid', $vars);
 $guid = elgg_extract('guid', $vars, null);
-$message = elgg_echo("etherpad:access:message");
+
 ?>
 
 <div>
@@ -22,7 +22,7 @@ $message = elgg_echo("etherpad:access:message");
     <?php echo elgg_view('input/tags',array('internalname' => 'tags', 'value' => $tags)); ?>
 </div>
 <?php
-echo elgg_view('output/text', array('value' => $message));
+
 $categories = elgg_view('input/categories', $vars);
 if ($categories) {
 	echo $categories;
@@ -36,6 +36,17 @@ if ($guid) {
 	echo elgg_view('input/hidden', array('name' => 'guid', 'value' => $guid));
 } ?>
 </div>
+
+<div>
+    <label><?php echo elgg_echo('access'); ?></label><br />
+    <?php echo elgg_view('input/access', array(
+	'name' => 'access_id',
+	'id' => 'etherpad_access_id',
+	'value' => $vars['access_id']
+));
+    ?>
+</div>
+
 <div>
 <?php echo elgg_view('input/submit', array('value' => elgg_echo('save'))); ?>
 </div>

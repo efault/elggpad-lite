@@ -10,9 +10,9 @@
   $apiurl = elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/api";
   $instance = new EtherpadLiteClient($apikey,$apiurl);
   
-  //Etherpad: Create a group for logged in user
+  //Etherpad: Create a group for elggpad.
   try { 
-   $mappedGroup = $instance->createGroupIfNotExistsFor(get_loggedin_user()->username);
+   $mappedGroup = $instance->createGroupIfNotExistsFor("elggpad");//(get_loggedin_user()->username);
    $groupID = $mappedGroup->groupID;
   } catch (Exception $e) {echo $e.getMessage();}
 
@@ -45,7 +45,8 @@
 	//TODO : Access control, private pads. 
   try {
 	$instance->createGroupPad($groupID,$name, elgg_get_plugin_setting('new_pad_text', 'etherpad'));
-	$instance->setPublicStatus($padID,"true");
+	
+	
   } catch (Exception $e) {
   	echo "\n\ncreatePad Failed with message ". $e->getMessage();
   }
@@ -54,14 +55,20 @@
   $padurl = elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/p/". $padID;
   $body = get_input('description');
   $tags = string_to_tag_array(get_input('tags'));
- 
+  $access = get_input('access_id');
+  //set etherpad permissions
+  if($access == '2') {
+		$instance->setPublicStatus($padID,"true");
+	} else {
+		$instance->setPublicStatus($padID,"false"); 
+  }
   // create a new etherpad object
   $etherpad = new ElggObject();
   $etherpad->subtype = "etherpad";
   $etherpad->title = $title;
   $etherpad->description = $body;
   $etherpad->paddress = $padurl;
-  $etherpad->access_id = ACCESS_PUBLIC;
+  $etherpad->access_id = $access;
   $etherpad->pname = $padID;
   // owner is logged in user
   $etherpad->owner_guid = elgg_get_logged_in_user_guid();
@@ -76,7 +83,8 @@
 		add_to_river('river/object/etherpad/create','create', elgg_get_logged_in_user_guid(), $etherpad->getGUID());
 		$etherpad->container_guid = (int)get_input('container_guid', elgg_get_logged_in_user_guid());
 	}
-	system_message(elgg_echo('etherpad:save:success')); 
+	system_message(elgg_echo('etherpad:save:success'));
+	 
   } else {
 	if (!$etherpad->canEdit()) {
 		system_message(elgg_echo('etherpad:save:failed'));

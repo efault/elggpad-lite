@@ -1,3 +1,8 @@
+0.6.0
+Fixed Etherpad Lite authentication.
+Pads now support elgg permissions (private, logged in users only, friends, public)
+Pads can no longer be directly accessed without logging into elgg. (unless public)
+
 0.5.4
 Added spanish translation file, languages/es.php, thanks Antonio Arebalo
 	for translating. 

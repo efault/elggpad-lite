@@ -1,4 +1,4 @@
-elggpad-lite v0.5.4
+elggpad-lite v0.6.0
 
 Requires:
 	elgg 1.8 http://elgg.org/download.php
@@ -26,18 +26,15 @@ Configure:
 	Supported languages: English, Spanish.
 	
 Notes: 
-	All pads are currently public, this will be fixed in a later release. 
 	Etherpad Lite is not included in the plugin, you need to install and configure it separately.
 
 Changes:
-	Added spanish translation file, languages/es.php
-	Better translation support. 
-	Added pad description to etherpad page.
-	
-	Thanks Antonio Arebalo for spanish translation.
+	Fixed Etherpad Lite authentication.
+	Pads now support elgg permissions (private, logged in users only, friends, public)
+	Pads can no longer be directly accessed without logging into elgg. (unless public)
 	
 TODO:
-	Sessions, private pads, group pads.
+	Group pads.
 	
 License:
 	GPL version 2, see LICENSE for more details.
