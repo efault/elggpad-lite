@@ -11,7 +11,9 @@ $page_owner = elgg_get_page_owner_entity();
 
 if (elgg_instanceof($page_owner, 'group')) {
 	elgg_push_breadcrumb($page_owner->name, "etherpad/group/$page_owner->guid/all");
-} 
+} else {
+	elgg_push_breadcrumb($page_owner->name, "etherpad/owner/$page_owner->username");
+}
 $title = $etherpad->title;
 
 elgg_push_breadcrumb($title);

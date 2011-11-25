@@ -67,6 +67,12 @@ function etherpad_prepare_form_vars($etherpad = null, $parent_guid = 0) {
 
 elgg_set_page_owner_guid($container->getGUID());
 
+if (elgg_instanceof($container, 'group')) {
+	elgg_push_breadcrumb($container->name, "etherpad/group/$page_owner->guid/all");
+} else {
+	elgg_push_breadcrumb($container->name, "etherpad/owner/$page_owner->username");
+}
+
 elgg_push_breadcrumb($etherpad->title, $etherpad->getURL());
 elgg_push_breadcrumb(elgg_echo('edit'));
 
