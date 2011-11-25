@@ -9,13 +9,13 @@
   
   //Etherpad: Create a group for elggpad.
   try { 
-   $mappedGroup = $instance->createGroupIfNotExistsFor("elggpad");//(get_loggedin_user()->username);
+   $mappedGroup = $instance->createGroupIfNotExistsFor("elggpad");//(elgg_get_logged_in_user_entity()->username);
    $groupID = $mappedGroup->groupID;
   } catch (Exception $e) {echo $e.getMessage();}
 
   //Etherpad: Create an author(etherpad user) for logged in user
   try {
-    $author = $instance->createAuthorIfNotExistsFor(get_loggedin_user()->username);
+    $author = $instance->createAuthorIfNotExistsFor(elgg_get_logged_in_user_entity()->username);
     $authorID = $author->authorID;
   } catch (Exception $e) {
     echo "\n\ncreateAuthorIfNotExistsFor Failed with message ". $e->getMessage();

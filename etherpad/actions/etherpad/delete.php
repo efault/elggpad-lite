@@ -5,7 +5,7 @@
  * @package etherpad
  */
 
-elgg_load_libarary('elgg:etherpad-client');
+elgg_load_library('elgg:etherpad-client');
 
 $guid = get_input('guid');
 $etherpad = get_entity($guid);
