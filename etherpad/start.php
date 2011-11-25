@@ -41,48 +41,56 @@ function etherpad_init() {
 }
 
 
-function etherpad_page_handler($segments) {
+function etherpad_page_handler($page) {
+	
+	if (!isset($page[0])) {
+		$page[0] = 'all';
+	}
+	
 	elgg_push_breadcrumb(elgg_echo('etherpad'), 'etherpad/all');
-	switch ($segments[0]) {
+	
+	$base_dir = elgg_get_plugins_path() . 'etherpad/pages/etherpad';
+
+	$page_type = $page[0];
+	switch ($page_type) {
 		case "add" :
-			set_input('guid', $segments[1]);
-        	include dirname(__FILE__) . '/pages/etherpad/add.php';
+			set_input('guid', $page[1]);
+        	include "$base_dir/add.php";
 			break;
 
 		case "all" :
-			include dirname(__FILE__) . '/pages/etherpad/all.php';
+			include "$base_dir/all.php";
 			break;
 		
 		case "edit" :
 			gatekeeper();
-			set_input('guid', $segments[1]);
-        		include dirname(__FILE__) . '/pages/etherpad/edit.php';
+			set_input('guid', $page[1]);
+        	include "$base_dir/edit.php";
 			break;
 
 		case "owner" :
-			include dirname(__FILE__) . '/pages/etherpad/owner.php';
+			include "$base_dir/owner.php";
 			break;
 
 		case "friends" :
-			include dirname(__FILE__) . '/pages/etherpad/friends.php';
+			include "$base_dir/friends.php";
 			break;
 
 		case "view":
-			//gatekeeper();
-			set_input('guid', $segments[1]);
-			include dirname(__FILE__) . '/pages/etherpad/view.php';
+			set_input('guid', $page[1]);
+			include "$base_dir/view.php";
 			break;
 		case 'group':
 			group_gatekeeper();
-			include dirname(__FILE__) . '/pages/etherpad/owner.php';
+			include "$base_dir/owner.php";
 			break;
 
 		default: 
-			include dirname(__FILE__) . '/pages/etherpad/all.php';
+			include "$base_dir/all.php";
 			break;
 			
 	}
-	elgg_pop_context();
+	return true;
 }
 
 /**
