@@ -4,10 +4,8 @@
  *
  * @package etherpad
  */
-  // include etherpad class
-  global $CONFIG;
-  $eclient = $CONFIG->pluginspath . "etherpad/classes/etherpad-lite-client.php";
-  include $eclient;
+
+elgg_load_libarary('elgg:etherpad-client');
 
 $guid = get_input('guid');
 $etherpad = get_entity($guid);

@@ -9,6 +9,8 @@ elgg_register_event_handler('init', 'system', 'etherpad_init');
 
 
 function etherpad_init() {
+	elgg_register_library('elgg:etherpad-client', elgg_get_plugins_path() . 'etherpad/vendors/etherpad-lite-client.php');
+	
 	elgg_register_action("etherpad/save", dirname(__FILE__) . "/actions/etherpad/save.php");
 	elgg_register_action("etherpad/delete", dirname(__FILE__) . "/actions/etherpad/delete.php");
 	elgg_register_page_handler('etherpad', 'etherpad_page_handler');
@@ -160,10 +162,8 @@ function etherpad_notify_message($hook, $entity_type, $returnvalue, $params) {
  * @return string bookmarked item URL
  */
 function etherpad_url($entity) {
-	global $CONFIG;
-
 	$title = $entity->title;
 	$title = elgg_get_friendly_title($title);
-	return $CONFIG->url . "etherpad/view/" . $entity->getGUID() . "/" . $title;
+	return elgg_get_site_url() . "etherpad/view/" . $entity->getGUID() . "/" . $title;
 }
 ?>

@@ -9,9 +9,7 @@
 	
 	if ($full) {
 		if(isloggedin()){
-			global $CONFIG;
-	        $eclient = $CONFIG->pluginspath . "etherpad/classes/etherpad-lite-client.php";
-	        include $eclient;
+	        elgg_load_library('elgg:etherpad-client');
 	  
 	        // Etherpad: Create an instance
 	        $apikey = elgg_get_plugin_setting('etherpad_key', 'etherpad');
