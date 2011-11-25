@@ -8,7 +8,7 @@
 	}
 	
 	if ($full) {
-		if(isloggedin()){
+		if(elgg_is_logged_in()){
 	        elgg_load_library('elgg:etherpad-client');
 	  
 	        // Etherpad: Create an instance
@@ -24,7 +24,7 @@
 	
 			//Etherpad: Create an author(etherpad user) for logged in user
 			try {
-	    	   $author = $instance->createAuthorIfNotExistsFor(get_loggedin_user()->username);
+	    	   $author = $instance->createAuthorIfNotExistsFor(elgg_get_logged_in_user_entity()->username);
 	    	   $authorID = $author->authorID;
 			} catch (Exception $e) {
 	    	  echo "\n\ncreateAuthorIfNotExistsFor Failed with message ". $e->getMessage();
@@ -72,8 +72,8 @@
 		$argcount = 0;
 		$padpath = $etherpad->paddress;
 		//$padpath .= "?sessionID=" . $sessionID;
-		if (isloggedin()){	
-			$padpath .= "?userName=" . get_loggedin_user()->username;
+		if (elgg_is_logged_in()){	
+			$padpath .= "?userName=" . elgg_get_logged_in_user_entity()->username;
 		} else {
 			$padpath .= "?userName=undefined";
 		}

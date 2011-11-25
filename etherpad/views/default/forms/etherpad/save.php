@@ -11,15 +11,15 @@ $guid = elgg_extract('guid', $vars, null);
 
 <div>
     <label><?php echo elgg_echo('etherpad:edit:title'); ?></label><br />
-    <?php echo elgg_view('input/text',array('internalname' => 'title', 'value' => $title)); ?>
+    <?php echo elgg_view('input/text',array('name' => 'title', 'value' => $title)); ?>
 </div>
 <div>
     <label><?php echo elgg_echo('etherpad:edit:desc'); ?></label><br />
-    <?php echo elgg_view('input/text',array('internalname' => 'description', 'value' => $desc)); ?>
+    <?php echo elgg_view('input/text',array('name' => 'description', 'value' => $desc)); ?>
 </div> 
 <div>
     <label><?php echo elgg_echo('etherpad:edit:tags'); ?></label><br />
-    <?php echo elgg_view('input/tags',array('internalname' => 'tags', 'value' => $tags)); ?>
+    <?php echo elgg_view('input/tags',array('name' => 'tags', 'value' => $tags)); ?>
 </div>
 <?php
 
