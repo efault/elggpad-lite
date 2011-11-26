@@ -113,13 +113,13 @@ function etherpad_entity_menu($hook, $type, $return, $params) {
 		return $return;
 	}
 
-	$entity = $params['entity'];
+	$entity = new ElggPad($params['entity']->guid);
 
 	// fullscreen button
 	$options = array(
-		'name' => 'etherpadfs',
-		'text' => elgg_view('etherpad/button', array('entity' => $entity)),
-		'href' => $entity->paddress,
+		'name' => 'etherpad-fullscreen',
+		'text' => elgg_echo('etherpad:fullscreen'),
+		'href' => $entity->getPadPath(),
 		'priority' => 200,
 	);
 	$return[] = ElggMenuItem::factory($options);
