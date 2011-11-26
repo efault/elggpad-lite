@@ -16,6 +16,15 @@ function etherpad_init() {
 	elgg_register_page_handler('pages', 'etherpad_page_handler');
 	elgg_register_page_handler('etherpad', 'etherpad_page_handler');
 	
+	// Language short codes must be of the form "pages:key"
+	// where key is the array key below
+	elgg_set_config('etherpad', array(
+		'title' => 'text',
+		'tags' => 'tags',
+		'access_id' => 'access',
+		'write_access_id' => 'write_access',
+	));
+	
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'etherpad_owner_block_menu');
 	elgg_register_plugin_hook_handler('register', 'menu:entity', 'etherpad_entity_menu');
 	
