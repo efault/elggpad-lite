@@ -9,10 +9,10 @@ elgg_register_event_handler('init', 'system', 'etherpad_init');
 
 
 function etherpad_init() {
-	elgg_register_library('elgg:etherpad-client', elgg_get_plugins_path() . 'etherpad/vendors/etherpad-lite-client.php');
+	$actions_base = elgg_get_plugins_path() . 'etherpad/actions/etherpad';
+	elgg_register_action("etherpad/save", "$actions_base/save.php");
+	elgg_register_action("etherpad/delete", "$actions_base/delete.php");
 	
-	elgg_register_action("etherpad/save", dirname(__FILE__) . "/actions/etherpad/save.php");
-	elgg_register_action("etherpad/delete", dirname(__FILE__) . "/actions/etherpad/delete.php");
 	elgg_register_page_handler('etherpad', 'etherpad_page_handler');
 	
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'etherpad_owner_block_menu');

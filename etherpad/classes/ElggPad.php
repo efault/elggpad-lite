@@ -66,7 +66,7 @@ class ElggPad extends ElggObject {
 	}
 	
 	function startSession(){
-		elgg_load_library('elgg:etherpad-client');
+		include(elgg_get_plugins_path() . 'etherpad/vendors/etherpad-lite-client.php');
 		 
 		// Etherpad: Create an instance
 		$apikey = elgg_get_plugin_setting('etherpad_key', 'etherpad');
