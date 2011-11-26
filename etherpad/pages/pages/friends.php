@@ -22,6 +22,17 @@ if (!$content) {
 	$content = elgg_echo('pages:none');
 }
 
+if (elgg_is_logged_in()) {
+	$url = "etherpad/add/" . elgg_get_logged_in_user_guid();
+	elgg_register_menu_item('title', array(
+			'name' => 'elggpad',
+			'href' => $url,
+			'text' => elgg_echo('etherpad:new'),
+			'link_class' => 'elgg-button elgg-button-action',
+			'priority' => 200,
+	));
+}
+
 $params = array(
 	'filter_context' => 'friends',
 	'content' => $content,

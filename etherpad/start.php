@@ -9,6 +9,10 @@ elgg_register_event_handler('init', 'system', 'etherpad_init');
 
 
 function etherpad_init() {
+	
+	// override pages library
+	elgg_register_library('elgg:pages', elgg_get_plugins_path() . 'etherpad/lib/pages.php');
+	
 	$actions_base = elgg_get_plugins_path() . 'etherpad/actions/etherpad';
 	elgg_register_action("etherpad/save", "$actions_base/save.php");
 	elgg_register_action("etherpad/delete", "$actions_base/delete.php");
