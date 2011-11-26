@@ -2,60 +2,29 @@
 
 	$full = elgg_extract('full_view', $vars, FALSE);
 	$etherpad = elgg_extract('entity', $vars, FALSE);
-
-	if (!$etherpad) {
-		return;
+	
+	if (!$etherpad || !elgg_instanceof($etherpad, 'object', 'etherpad')) {
+		return true;
 	}
 	
-	if ($full) {
-		if(elgg_is_logged_in()){
-	        elgg_load_library('elgg:etherpad-client');
-	  
-	        // Etherpad: Create an instance
-	        $apikey = elgg_get_plugin_setting('etherpad_key', 'etherpad');
-	        $apiurl = elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/api";
-			$instance = new EtherpadLiteClient($apikey,$apiurl);
-	  
-			
-			try {
-				//Etherpad: Create a group for logged in user
-				$mappedGroup = $instance->createGroupIfNotExistsFor("elggpad");//(get_loggedin_user()->username); 
-				$groupID = $mappedGroup->groupID;
-
-				//Etherpad: Create an author(etherpad user) for logged in user
-				$author = $instance->createAuthorIfNotExistsFor(elgg_get_logged_in_user_entity()->username);
-				$authorID = $author->authorID;
-
-				//Etherpad: Create session
-				$validUntil = mktime(date("H"), date("i")+5, 0, date("m"), date("d"), date("y")); // 5 minutes in the future
-				$sessionID = $instance->createSession($groupID, $authorID, $validUntil);
-				$sessionID = $sessionID->sessionID;
-			} catch (Exception $e) {
-				$error = $e->getMessage();
-			}
-			
-			if(!setcookie('sessionID', $sessionID, $validUntil, '/')){
-				$error = elgg_echo('etherpad:error:cookies_required');
-			}
-		}
-	}
+	$etherpad = new ElggPad($etherpad->guid);
 	
     $owner = $etherpad->getOwnerEntity();
     $owner_icon = elgg_view_entity_icon($owner, 'tiny');
     $container = $etherpad->getContainerEntity();
     $categories = elgg_view('output/categories', $vars);
     $owner_link = elgg_view('output/url', array(
-	'href' => "etherpad/owner/$owner->username",
-	'text' => $owner->name,
+		'href' => "etherpad/owner/$owner->username",
+		'text' => $owner->name,
     ));
     $author_text = elgg_echo('byline', array($owner_link));
     $date = elgg_view_friendly_time($etherpad->time_created);
 
     $metadata = elgg_view_menu('entity', array(
-	'entity' =>$etherpad,
-	'handler' => 'etherpad',
-	'sort_by' => 'priority',
-	'class' => 'elgg-menu-hz',
+		'entity' =>$etherpad,
+		'handler' => 'etherpad',
+		'sort_by' => 'priority',
+		'class' => 'elgg-menu-hz',
     ));
 
     $subtitle = "$author_text $date $categories";
@@ -69,42 +38,7 @@
 
     if($full){
 		$argcount = 0;
-		$padpath = $etherpad->paddress;
-		//$padpath .= "?sessionID=" . $sessionID;
-		if (elgg_is_logged_in()){	
-			$padpath .= "?userName=" . elgg_get_logged_in_user_entity()->username;
-		} else {
-			$padpath .= "?userName=undefined";
-		}
-		//controls
-		if (elgg_get_plugin_setting('show_controls', 'etherpad') == 'no') {
-    	    $padpath .= "&showControls=false";
-    	} else {
-			$padpath .= "&showControls=true";
-		}
-	
-		//monospace font
-		if (elgg_get_plugin_setting('monospace_font', 'etherpad') == 'no') {
-    	    $padpath .= "&useMonospaceFont=false";
-    	} else {
-			$padpath .= "&useMonospaceFont=true";
-		}
-
-		//chat
-    	if (elgg_get_plugin_setting('show_chat', 'etherpad') == 'no') {
-    	    $padpath .= "&showChat=false";
-    	} else {
-			$padpath .= "&showChat=true";
-		}
-
-    	//line numbers
-    	if (elgg_get_plugin_setting('line_numbers', 'etherpad') == 'no') {
-    		$padpath .= "&showLineNumbers=false";
-    	} else {
-			$padpath .= "&showLineNumbers=true";
-		}	
 		
-	
 		$params = array(		
 			'entity' => $etherpad,
 			'metadata' => $metadata,
@@ -112,14 +46,17 @@
 			'title' => $title,
 			'filter' => false,
 			'tags' => false,
-			);
+		);
 		$list_body = elgg_view('object/elements/summary', $params);
 		$content .= elgg_view_image_block($owner_icon, $list_body);
-		if(!$error){
-			$content .= elgg_view('output/iframe', array('value' => $padpath, 'type' => "etherpad"));
-		} else {
-			$content .= $error;
+		
+		try {
+			$etherpad->startSession();
+			$content .= elgg_view('output/iframe', array('value' => $etherpad->getPadPath(), 'type' => "etherpad"));
+		} catch(Exception $e) {
+			$content .= $e->getMessage();
 		}
+		
 		echo $content;
 		
 		//Display description if it exists.

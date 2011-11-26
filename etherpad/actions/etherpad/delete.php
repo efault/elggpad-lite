@@ -5,25 +5,10 @@
  * @package etherpad
  */
 
-elgg_load_library('elgg:etherpad-client');
-
 $guid = get_input('guid');
-$etherpad = get_entity($guid);
-$apikey = elgg_get_plugin_setting('etherpad_key', 'etherpad');
-$apiurl = elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/api";
-$instance = new EtherpadLiteClient($apikey,$apiurl);
-
+$etherpad = new ElggPad($guid);
 
 if (elgg_instanceof($etherpad, 'object', 'etherpad') && $etherpad->canEdit()) {
-	$container = $etherpad->getContainerEntity();
-	
-  	
-	try {
-  		$instance->deletePad($etherpad->pname);
-  	} catch (Exception $e) {
-  		register_error($e->getMessage());
-  		forward(REFERER);
-  	}
 
 	if ($etherpad->delete()) {
 		system_message(elgg_echo("etherpad:delete:success"));

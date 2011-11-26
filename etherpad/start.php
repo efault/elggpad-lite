@@ -18,7 +18,7 @@ function etherpad_init() {
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'etherpad_owner_block_menu');
 	elgg_register_plugin_hook_handler('register', 'menu:entity', 'etherpad_entity_menu');
 	
-	elgg_register_entity_type('object', 'etherpad');
+	elgg_register_entity_type('object', 'etherpad', 'ElggPad');
 	// menus
 	elgg_register_menu_item('site', array(
 		'name' => 'etherpad',

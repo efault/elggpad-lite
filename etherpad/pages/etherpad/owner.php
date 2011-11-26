@@ -5,6 +5,10 @@
  * @package etherpad
  */
 
+if(!elgg_get_page_owner_guid()){
+	elgg_set_page_owner_guid(elgg_get_logged_in_user_guid());
+}
+
 $page_owner = elgg_get_page_owner_entity();
 
 elgg_push_breadcrumb($page_owner->name);
