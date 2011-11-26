@@ -16,27 +16,26 @@
 	        $apiurl = elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/api";
 			$instance = new EtherpadLiteClient($apikey,$apiurl);
 	  
-			//Etherpad: Create a group for logged in user
-			try { 
+			
+			try {
+				//Etherpad: Create a group for logged in user
 				$mappedGroup = $instance->createGroupIfNotExistsFor("elggpad");//(get_loggedin_user()->username); 
 				$groupID = $mappedGroup->groupID;
-			} catch (Exception $e) {echo $e.getMessage();}
-	
-			//Etherpad: Create an author(etherpad user) for logged in user
-			try {
-	    	   $author = $instance->createAuthorIfNotExistsFor(elgg_get_logged_in_user_entity()->username);
-	    	   $authorID = $author->authorID;
+
+				//Etherpad: Create an author(etherpad user) for logged in user
+				$author = $instance->createAuthorIfNotExistsFor(elgg_get_logged_in_user_entity()->username);
+				$authorID = $author->authorID;
+
+				//Etherpad: Create session
+				$validUntil = mktime(date("H"), date("i")+5, 0, date("m"), date("d"), date("y")); // 5 minutes in the future
+				$sessionID = $instance->createSession($groupID, $authorID, $validUntil);
+				$sessionID = $sessionID->sessionID;
 			} catch (Exception $e) {
-	    	  echo "\n\ncreateAuthorIfNotExistsFor Failed with message ". $e->getMessage();
+				$error = $e->getMessage();
 			}
 			
-			//Etherpad: Create session
-			$validUntil = mktime(date("H"), date("i")+5, 0, date("m"), date("d"), date("y")); // 5 minutes in the future
-			$sessionID = $instance->createSession($groupID, $authorID, $validUntil);
-			$sessionID = $sessionID->sessionID;
-			
-			if(setcookie('sessionID', $sessionID, $validUntil, '/')){
-				
+			if(!setcookie('sessionID', $sessionID, $validUntil, '/')){
+				$error = elgg_echo('etherpad:error:cookies_required');
 			}
 		}
 	}
@@ -116,7 +115,11 @@
 			);
 		$list_body = elgg_view('object/elements/summary', $params);
 		$content .= elgg_view_image_block($owner_icon, $list_body);
-		$content .= elgg_view('output/iframe', array('value' => $padpath, 'type' => "etherpad"));
+		if(!$error){
+			$content .= elgg_view('output/iframe', array('value' => $padpath, 'type' => "etherpad"));
+		} else {
+			$content .= $error;
+		}
 		echo $content;
 		
 		//Display description if it exists.
