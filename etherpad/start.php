@@ -16,7 +16,7 @@ function etherpad_init() {
 	elgg_register_page_handler('pages', 'etherpad_page_handler');
 	elgg_register_page_handler('etherpad', 'etherpad_page_handler');
 	
-	// Language short codes must be of the form "pages:key"
+	// Language short codes must be of the form "etherpad:key"
 	// where key is the array key below
 	elgg_set_config('etherpad', array(
 		'title' => 'text',
@@ -35,6 +35,9 @@ function etherpad_init() {
 	
 	// Register a URL handler for bookmarks
 	elgg_register_entity_url_handler('object', 'etherpad', 'pages_url');
+	
+	// icon url override
+	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'etherpad_icon_url_override');
 	
 	 //Groups @TODO: groups
 	 //add_group_tool_option('etherpad', elgg_echo('etherpad:enabletherpads'), true);
@@ -179,4 +182,23 @@ function etherpad_url($entity) {
 	$title = elgg_get_friendly_title($title);
 	return elgg_get_site_url() . "pages/view/" . $entity->getGUID() . "/" . $title;
 }
-?>
+
+/**
+ * Override the default entity icon for pads
+ *
+ * @return string Relative URL
+ */
+function etherpad_icon_url_override($hook, $type, $returnvalue, $params) {
+	$entity = $params['entity'];
+	if (elgg_instanceof($entity, 'object', 'etherpad') ||
+		elgg_instanceof($entity, 'object', 'subpad')) {
+		switch ($params['size']) {
+			case 'small':
+				return 'mod/etherpad/images/etherpad.gif';
+				break;
+			case 'medium':
+				return 'mod/etherpad/images/etherpad_lrg.gif';
+				break;
+		}
+	}
+}

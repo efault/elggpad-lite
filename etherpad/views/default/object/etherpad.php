@@ -1,88 +1,108 @@
-<?php 
+<?php
+/**
+ * View for pad object
+ *
+ * @package ElggPad
+ *
+ * @uses $vars['entity']    The pad object
+ * @uses $vars['full_view'] Whether to display the full view
+ */
 
-	$full = elgg_extract('full_view', $vars, FALSE);
-	$etherpad = elgg_extract('entity', $vars, FALSE);
-	
-	if (!$etherpad || !elgg_instanceof($etherpad, 'object', 'etherpad')) {
-		return true;
+
+$full = elgg_extract('full_view', $vars, FALSE);
+$etherpad = elgg_extract('entity', $vars, FALSE);
+
+if (!$etherpad || !elgg_instanceof($etherpad, 'object', 'etherpad')) {
+	return TRUE;
+}
+
+$etherpad = new ElggPad($etherpad->guid);
+
+// pages used to use Public for write access
+if ($etherpad->write_access_id == ACCESS_PUBLIC) {
+	// this works because this metadata is public
+	$etherpad->write_access_id = ACCESS_LOGGED_IN;
+}
+
+$etherpad_icon = elgg_view('etherpad/icon', array('entity' => $etherpad, 'size' => 'small'));
+
+$editor = get_entity($etherpad->owner_guid);
+$editor_link = elgg_view('output/url', array(
+	'href' => "pages/owner/$editor->username",
+	'text' => $editor->name,
+	'is_trusted' => true,
+));
+
+$date = elgg_view_friendly_time($etherpad->time_created);
+$editor_text = elgg_echo('pages:strapline', array($date, $editor_link));
+$tags = elgg_view('output/tags', array('tags' => $etherpad->tags));
+$categories = elgg_view('output/categories', $vars);
+
+$comments_count = $etherpad->countComments();
+//only display if there are commments
+if ($comments_count != 0) {
+	$text = elgg_echo("comments") . " ($comments_count)";
+	$comments_link = elgg_view('output/url', array(
+		'href' => $etherpad->getURL() . '#page-comments',
+		'text' => $text,
+		'is_trusted' => true,
+	));
+} else {
+	$comments_link = '';
+}
+
+$metadata = elgg_view_menu('entity', array(
+	'entity' => $vars['entity'],
+	'handler' => 'etherpad',
+	'sort_by' => 'priority',
+	'class' => 'elgg-menu-hz',
+));
+
+$subtitle = "$editor_text $comments_link $categories";
+
+// do not show the metadata and controls in widget view
+if (elgg_in_context('widgets')) {
+	$metadata = '';
+}
+
+if ($full) {
+	try {
+		$etherpad->startSession();
+		$body .= elgg_view('output/iframe', array('value' => $etherpad->getPadPath(), 'type' => "etherpad"));
+	} catch(Exception $e) {
+		$body .= $e->getMessage();
 	}
-	
-	$etherpad = new ElggPad($etherpad->guid);
-	
-    $owner = $etherpad->getOwnerEntity();
-    $owner_icon = elgg_view_entity_icon($owner, 'tiny');
-    $container = $etherpad->getContainerEntity();
-    $categories = elgg_view('output/categories', $vars);
-    $owner_link = elgg_view('output/url', array(
-		'href' => "etherpad/owner/$owner->username",
-		'text' => $owner->name,
-    ));
-    $author_text = elgg_echo('byline', array($owner_link));
-    $date = elgg_view_friendly_time($etherpad->time_created);
+	$params = array(
+		'entity' => $etherpad,
+		'metadata' => $metadata,
+		'subtitle' => $subtitle,
+		'tags' => $tags,
+	);
+	$params = $params + $vars;
+	$summary = elgg_view('object/elements/summary', $params);
 
-    $metadata = elgg_view_menu('entity', array(
-		'entity' =>$etherpad,
-		'handler' => 'etherpad',
-		'sort_by' => 'priority',
-		'class' => 'elgg-menu-hz',
-    ));
+	echo elgg_view('object/elements/full', array(
+		'entity' => $etherpad,
+		'title' => false,
+		'icon' => $etherpad_icon,
+		'summary' => $summary,
+		'body' => $body,
+	));
 
-    $subtitle = "$author_text $date $categories";
+} else {
+	// brief view
 
-    // do not show the metadata and controls in widget view
-    if (elgg_in_context('widgets')) {
-		$metadata = '';
-    }
-	
-    $title = $etherpad->title;
+	$excerpt = elgg_get_excerpt($etherpad->description);
 
-    if($full){
-		$argcount = 0;
-		
-		$params = array(		
-			'entity' => $etherpad,
-			'metadata' => $metadata,
-			'subtitle' => $subtitle,
-			'title' => $title,
-			'filter' => false,
-			'tags' => false,
-		);
-		$list_body = elgg_view('object/elements/summary', $params);
-		$content .= elgg_view_image_block($owner_icon, $list_body);
-		
-		try {
-			$etherpad->startSession();
-			$content .= elgg_view('output/iframe', array('value' => $etherpad->getPadPath(), 'type' => "etherpad"));
-		} catch(Exception $e) {
-			$content .= $e->getMessage();
-		}
-		
-		echo $content;
-		
-		//Display description if it exists.
-		if($etherpad->description){
-			$desctitle = elgg_echo('etherpad:description');
-			echo "<p></p><h3>$desctitle</h3><div class=\"elgg-content\">$etherpad->description</div></p>";
-		}
+	$params = array(
+		'entity' => $etherpad,
+		'metadata' => $metadata,
+		'subtitle' => $subtitle,
+		'tags' => $tags,
+		'content' => $excerpt,
+	);
+	$params = $params + $vars;
+	$list_body = elgg_view('object/elements/summary', $params);
 
-    } else {
-
-		$url = $etherpad->address;
-		$display_text = $url;
-		$excerpt = elgg_get_excerpt($etherpad->description);
-
-        $content = $excerpt;
-		$params = array(
-			'entity' => $etherpad,
-			'metadata' => $metadata,
-			'subtitle' => $subtitle,
-			'content' => $content,
-			'tags' => false,
-		);
-		$params = $params + $vars;
-		$body = elgg_view('object/elements/summary', $params);
-	
-		echo elgg_view_image_block($owner_icon, $body);
-
-    }           
-?>
+	echo elgg_view_image_block($etherpad_icon, $list_body);
+}
