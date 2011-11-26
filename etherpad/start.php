@@ -13,27 +13,19 @@ function etherpad_init() {
 	elgg_register_action("etherpad/save", "$actions_base/save.php");
 	elgg_register_action("etherpad/delete", "$actions_base/delete.php");
 	
+	elgg_register_page_handler('pages', 'etherpad_page_handler');
 	elgg_register_page_handler('etherpad', 'etherpad_page_handler');
 	
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'etherpad_owner_block_menu');
 	elgg_register_plugin_hook_handler('register', 'menu:entity', 'etherpad_entity_menu');
 	
 	elgg_register_entity_type('object', 'etherpad', 'ElggPad');
-	// menus
-	elgg_register_menu_item('site', array(
-		'name' => 'etherpad',
-		'text' => elgg_echo('etherpad'), 
-		'href' => 'etherpad/all'
-	));
 	
 	//Widget
 	elgg_register_widget_type('etherpad', elgg_echo('etherpad'), elgg_echo('etherpad:profile:widgetdesc'));
 	
 	// Register a URL handler for bookmarks
-	elgg_register_entity_url_handler('object', 'etherpad', 'etherpad_url');
-	
-	// Register entity type for search
-	elgg_register_entity_type('object', 'etherpad');
+	elgg_register_entity_url_handler('object', 'etherpad', 'pages_url');
 	
 	 //Groups @TODO: groups
 	 //add_group_tool_option('etherpad', elgg_echo('etherpad:enabletherpads'), true);
@@ -41,54 +33,58 @@ function etherpad_init() {
 }
 
 
-function etherpad_page_handler($page) {
+function etherpad_page_handler($page, $handler) {
 	
+	elgg_load_library('elgg:pages');
+	
+	// add the jquery treeview files for navigation
+	elgg_load_js('jquery-treeview');
+	elgg_load_css('jquery-treeview');
+
 	if (!isset($page[0])) {
 		$page[0] = 'all';
 	}
-	
-	elgg_push_breadcrumb(elgg_echo('etherpad'), 'etherpad/all');
-	
-	$base_dir = elgg_get_plugins_path() . 'etherpad/pages/etherpad';
+
+	elgg_push_breadcrumb(elgg_echo('pages'), 'pages/all');
+
+	$base_dir = elgg_get_plugins_path() . "etherpad/pages/$handler";
 
 	$page_type = $page[0];
 	switch ($page_type) {
-		case "add" :
-			set_input('guid', $page[1]);
-        	include "$base_dir/add.php";
-			break;
-
-		case "all" :
-			include "$base_dir/all.php";
-			break;
-		
-		case "edit" :
-			gatekeeper();
-			set_input('guid', $page[1]);
-        	include "$base_dir/edit.php";
-			break;
-
-		case "owner" :
+		case 'owner':
 			include "$base_dir/owner.php";
 			break;
-
-		case "friends" :
+		case 'friends':
 			include "$base_dir/friends.php";
 			break;
-
-		case "view":
+		case 'view':
 			set_input('guid', $page[1]);
 			include "$base_dir/view.php";
 			break;
+		case 'add':
+			set_input('guid', $page[1]);
+			include "$base_dir/new.php";
+			break;
+		case 'edit':
+			set_input('guid', $page[1]);
+			include "$base_dir/edit.php";
+			break;
 		case 'group':
-			group_gatekeeper();
 			include "$base_dir/owner.php";
 			break;
-
-		default: 
-			include "$base_dir/all.php";
+		case 'history':
+			set_input('guid', $page[1]);
+			include "$base_dir/history.php";
 			break;
-			
+		case 'revision':
+			set_input('id', $page[1]);
+			include "$base_dir/revision.php";
+			break;
+		case 'all':
+			include "$base_dir/world.php";
+			break;
+		default:
+			return false;
 	}
 	return true;
 }
@@ -172,6 +168,6 @@ function etherpad_notify_message($hook, $entity_type, $returnvalue, $params) {
 function etherpad_url($entity) {
 	$title = $entity->title;
 	$title = elgg_get_friendly_title($title);
-	return elgg_get_site_url() . "etherpad/view/" . $entity->getGUID() . "/" . $title;
+	return elgg_get_site_url() . "pages/view/" . $entity->getGUID() . "/" . $title;
 }
 ?>
