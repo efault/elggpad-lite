@@ -4,10 +4,8 @@
  *
  * @package etherpad
  */
-  // include etherpad class
-  global $CONFIG;
-  $eclient = $CONFIG->pluginspath . "etherpad/classes/etherpad-lite-client.php";
-  include $eclient;
+
+elgg_load_library('elgg:etherpad-client');
 
 $guid = get_input('guid');
 $etherpad = get_entity($guid);
@@ -23,7 +21,8 @@ if (elgg_instanceof($etherpad, 'object', 'etherpad') && $etherpad->canEdit()) {
 	try {
   		$instance->deletePad($etherpad->pname);
   	} catch (Exception $e) {
-  		echo $e->getMessage();
+  		register_error($e->getMessage());
+  		forward(REFERER);
   	}
 
 	if ($etherpad->delete()) {
