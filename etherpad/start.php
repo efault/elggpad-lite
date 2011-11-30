@@ -29,7 +29,6 @@ function etherpad_init() {
 		'write_access_id' => 'write_access',
 	));
 	
-	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'etherpad_owner_block_menu');
 	elgg_register_plugin_hook_handler('register', 'menu:entity', 'etherpad_entity_menu');
 	
 	elgg_register_entity_type('object', 'etherpad', 'ElggPad');
@@ -46,10 +45,6 @@ function etherpad_init() {
 	
 	// icon url override
 	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'etherpad_icon_url_override');
-	
-	 //Groups @TODO: groups
-	 //add_group_tool_option('etherpad', elgg_echo('etherpad:enabletherpads'), true);
-	 //elgg_extend_view('groups/tool_latest', 'etherpad/group_module');
 }
 
 
@@ -132,31 +127,6 @@ function etherpad_entity_menu($hook, $type, $return, $params) {
 		'priority' => 200,
 	);
 	$return[] = ElggMenuItem::factory($options);
-
-	return $return;
-}
-
-
-/**
- * Add a menu item to an ownerblock
- * 
- * @param string $hook
- * @param string $type
- * @param array  $return
- * @param array  $params
- */
-function etherpad_owner_block_menu($hook, $type, $return, $params) {
-	if (elgg_instanceof($params['entity'], 'user')) {
-		$url = "etherpad/owner/{$params['entity']->username}";
-		$item = new ElggMenuItem('etherpad', elgg_echo('etherpad'), $url);
-		$return[] = $item;
-	} else { //TODO: finish group support before uncommenting. 
-		/*if ($params['entity']->etherpad_enable != 'no') {
-			$url = "etherpad/group/{$params['entity']->guid}/all";
-			$item = new ElggMenuItem('etherpad', elgg_echo('etherpad:group'), $url);
-			$return[] = $item;
-		} */
-	}
 
 	return $return;
 }
