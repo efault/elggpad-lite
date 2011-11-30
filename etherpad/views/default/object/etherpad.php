@@ -67,7 +67,6 @@ if (elgg_in_context('widgets')) {
 
 if ($full) {
 	try {
-		$etherpad->startSession();
 		$body .= elgg_view('output/iframe', array('value' => $etherpad->getPadPath(), 'type' => "etherpad"));
 	} catch(Exception $e) {
 		$body .= $e->getMessage();
