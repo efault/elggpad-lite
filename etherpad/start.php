@@ -109,11 +109,18 @@ function etherpad_page_handler($page, $handler) {
  * Add fullscreen to entity menu
  */
 function etherpad_entity_menu($hook, $type, $return, $params) {
+	
+	$entity = $params['entity'];
+	
 	if (elgg_in_context('widgets')) {
 		return $return;
 	}
+	
+	if(!in_array($entity->getSubtype(), array('etherpad', 'subpad'))){
+		return $return;
+	}
 
-	$entity = new ElggPad($params['entity']->guid);
+	$entity = new ElggPad($entity->guid);
 
 	// fullscreen button
 	$options = array(
