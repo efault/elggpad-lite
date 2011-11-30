@@ -34,6 +34,10 @@ function etherpad_init() {
 	
 	elgg_register_entity_type('object', 'etherpad', 'ElggPad');
 	
+	// write permission plugin hooks
+	//elgg_register_plugin_hook_handler('permissions_check', 'object', 'etherpad_write_permission_check');
+	//elgg_register_plugin_hook_handler('container_permissions_check', 'object', 'etherpad_container_permission_check');
+	
 	//Widget
 	elgg_register_widget_type('etherpad', elgg_echo('etherpad'), elgg_echo('etherpad:profile:widgetdesc'));
 	
@@ -119,14 +123,12 @@ function etherpad_entity_menu($hook, $type, $return, $params) {
 	if(!in_array($entity->getSubtype(), array('etherpad', 'subpad'))){
 		return $return;
 	}
-
-	$entity = new ElggPad($entity->guid);
-
+	
 	// fullscreen button
 	$options = array(
-		'name' => 'etherpad-fullscreen',
-		'text' => elgg_echo('etherpad:fullscreen'),
-		'href' => $entity->getPadPath(),
+		'name' => 'etherpad-timeline',
+		'text' => elgg_echo('etherpad:timeline'),
+		'href' => elgg_get_site_url() . 'pages/history/' . $entity->guid,
 		'priority' => 200,
 	);
 	$return[] = ElggMenuItem::factory($options);
@@ -212,4 +214,62 @@ function etherpad_icon_url_override($hook, $type, $returnvalue, $params) {
 				break;
 		}
 	}
+}
+
+/**
+ * Extend permissions checking to extend can-edit for write users.
+ *
+ * @param unknown_type $hook
+ * @param unknown_type $entity_type
+ * @param unknown_type $returnvalue
+ * @param unknown_type $params
+ */
+function etherpad_write_permission_check($hook, $entity_type, $returnvalue, $params)
+{
+	if ($params['entity']->getSubtype() == 'etherpad'
+		|| $params['entity']->getSubtype() == 'subpad') {
+
+		$write_permission = $params['entity']->write_access_id;
+		$user = $params['user'];
+
+		if (($write_permission) && ($user)) {
+			// $list = get_write_access_array($user->guid);
+			$list = get_access_array($user->guid); // get_access_list($user->guid);
+
+			if (($write_permission!=0) && (in_array($write_permission,$list))) {
+				return true;
+			}
+		}
+	}
+}
+
+/**
+ * Extend container permissions checking to extend can_write_to_container for write users.
+ *
+ * @param unknown_type $hook
+ * @param unknown_type $entity_type
+ * @param unknown_type $returnvalue
+ * @param unknown_type $params
+ */
+function etherpad_container_permission_check($hook, $entity_type, $returnvalue, $params) {
+
+	if (elgg_get_context() == "etherpad") {
+		if (elgg_get_page_owner_guid()) {
+			if (can_write_to_container(elgg_get_logged_in_user_guid(), elgg_get_page_owner_guid())) return true;
+		}
+		if ($page_guid = get_input('page_guid',0)) {
+			$entity = get_entity($page_guid);
+		} else if ($parent_guid = get_input('parent_guid',0)) {
+			$entity = get_entity($parent_guid);
+		}
+		if ($entity instanceof ElggObject) {
+			if (
+					can_write_to_container(elgg_get_logged_in_user_guid(), $entity->container_guid)
+					|| in_array($entity->write_access_id,get_access_list())
+				) {
+					return true;
+			}
+		}
+	}
+
 }

@@ -39,7 +39,7 @@ class ElggPad extends ElggObject {
 			$this->setMetaData('pname', $padID);
 			
 			//set etherpad permissions
-			if($access == '2') {
+			if($access == ACCESS_PUBLIC) {
 				$this->get_pad_client()->setPublicStatus($padID, "true");
 			} else {
 				$this->get_pad_client()->setPublicStatus($padID, "false");
@@ -116,7 +116,7 @@ class ElggPad extends ElggObject {
 			$readonly = $this->get_pad_client()->getReadOnlyID($padID)->readOnlyID;
 			$this->setMetaData('readOnlyID', $readonly);
 		}
-		return elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/p/". $readonly;
+		return elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/ro/". $readonly;
 	}	
 	
 	function getPadPath(){
@@ -144,8 +144,9 @@ class ElggPad extends ElggObject {
 			'showLineNumbers' => $settings[3],
 		);
 		
+		$this->startSession();
+		
 		if($this->canEdit()){
-			$this->startSession();
 			return $this->getAddress() . '?' . http_build_query($options);
 		} else {
 			return $this->getReadOnlyAddress(). '?' . http_build_query($options);

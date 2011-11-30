@@ -20,7 +20,7 @@ $english = array(
 	'etherpad:none' => 'No etherpads',
 	'etherpad:write' => 'Add etherpad',
 	'etherpad:delete:confirm' => "Are you sure you want to delete this resource?",
-	'etherpad:fullscreen' => 'Fullscreen',
+	'etherpad:timeline' => 'History',
 	'etherpad:numbertodisplay' => 'Number of etherpad to display',
 
 	'etherpad:visit' => "Visit resource",
