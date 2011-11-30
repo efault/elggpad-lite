@@ -97,7 +97,9 @@ class ElggPad extends ElggObject {
 		$session = $this->get_pad_client()->createSession($this->groupID, $this->authorID, $validUntil);
 		$sessionID = $session->sessionID;
 		
-		if(!setcookie('sessionID', $sessionID, $validUntil, '/')){
+		$domain = "." . parse_url(elgg_get_site_url(), PHP_URL_HOST);
+		
+		if(!setcookie('sessionID', $sessionID, $validUntil, '/', $domain)){
 			throw new Exception(elgg_echo('etherpad:error:cookies_required'));
 		}
 		
