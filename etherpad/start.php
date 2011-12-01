@@ -32,6 +32,7 @@ function etherpad_init() {
 	elgg_register_plugin_hook_handler('register', 'menu:entity', 'etherpad_entity_menu');
 	
 	elgg_register_entity_type('object', 'etherpad', 'ElggPad');
+	elgg_register_entity_type('object', 'subpad', 'ElggPad');
 	
 	// write permission plugin hooks
 	//elgg_register_plugin_hook_handler('permissions_check', 'object', 'etherpad_write_permission_check');
@@ -42,6 +43,7 @@ function etherpad_init() {
 	
 	// Register a URL handler for bookmarks
 	elgg_register_entity_url_handler('object', 'etherpad', 'pages_url');
+	elgg_register_entity_url_handler('object', 'subpad', 'pages_url');
 	
 	// icon url override
 	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'etherpad_icon_url_override');
@@ -105,7 +107,7 @@ function etherpad_page_handler($page, $handler) {
 }
 
 /**
- * Add fullscreen to entity menu
+ * Add history to entity menu
  */
 function etherpad_entity_menu($hook, $type, $return, $params) {
 	
@@ -119,7 +121,7 @@ function etherpad_entity_menu($hook, $type, $return, $params) {
 		return $return;
 	}
 	
-	// fullscreen button
+	// timeline button
 	$options = array(
 		'name' => 'etherpad-timeline',
 		'text' => elgg_echo('etherpad:timeline'),
@@ -149,21 +151,9 @@ function etherpad_notify_message($hook, $entity_type, $returnvalue, $params) {
 		//@todo why?
 		$url = elgg_get_site_url() . "view/" . $entity->guid;
 		$owner = $entity->getOwnerEntity();
-		return $owner->name . ' ' . elgg_echo("etherpad:via") . ': ' . $title . "\n\n" . $descr . "\n\n" . $entity->getURL();
+		return $owner->name . ' ' . elgg_echo("pages:via") . ': ' . $title . "\n\n" . $descr . "\n\n" . $entity->getURL();
 	}
 	return null;
-}
-
-/**
- * Populates the ->getUrl() method for bookmarked objects
- *
- * @param ElggEntity $entity The bookmarked object
- * @return string bookmarked item URL
- */
-function etherpad_url($entity) {
-	$title = $entity->title;
-	$title = elgg_get_friendly_title($title);
-	return elgg_get_site_url() . "pages/view/" . $entity->getGUID() . "/" . $title;
 }
 
 /**

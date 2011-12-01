@@ -12,7 +12,7 @@
 $full = elgg_extract('full_view', $vars, FALSE);
 $etherpad = elgg_extract('entity', $vars, FALSE);
 
-if (!$etherpad || !elgg_instanceof($etherpad, 'object', 'etherpad')) {
+if (!$etherpad || !elgg_instanceof($etherpad, 'object', 'etherpad') && !elgg_instanceof($etherpad, 'object', 'subpad')) {
 	return TRUE;
 }
 

@@ -40,6 +40,14 @@ if (elgg_get_logged_in_user_guid() == $page->getOwnerGuid()) {
 			'text' => elgg_echo('pages:newchild'),
 			'link_class' => 'elgg-button elgg-button-action',
 	));
+	$url = "etherpad/add/$page->guid";
+	elgg_register_menu_item('title', array(
+			'name' => 'subpad',
+			'href' => $url,
+			'text' => elgg_echo('etherpad:newchild'),
+			'link_class' => 'elgg-button elgg-button-action',
+			'priority' => 200,
+	));
 }
 
 $body = elgg_view_layout('content', array(

@@ -14,12 +14,19 @@ $english = array(
 	'etherpad' => "Collaborative pages",
 	'etherpad:add' => "Add pad",
 	'etherpad:timeline' => 'History',
-
+	
+	/**
+	 * River
+	 */
 	'river:create:object:etherpad' => '%s created a new collaborative page %s',
-	'river:comment:object:etherpad' => '%s commented on an collaborative page %s',
-	'etherpad:river:annotate' => 'a comment on this collaborative page',
+	'river:create:object:subpad' => '%s created a new collaborative page %s',
+	'river:update:object:etherpad' => '%s updated the collaborative page %s',
+	'river:update:object:subpad' => '%s updated the collaborative page %s',
+	'river:comment:object:etherpad' => '%s commented on the collaborative page %s',
+	'river:comment:object:subpad' => '%s commented on the collaborative page %s',
 	
 	'item:object:etherpad' => 'Pads',
+	'item:object:subpad' => 'Subpads',
 
 	/**
 	 * Status messages
