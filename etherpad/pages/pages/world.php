@@ -26,7 +26,7 @@ if (elgg_is_logged_in()) {
 	elgg_register_menu_item('title', array(
 			'name' => 'elggpad',
 			'href' => $url,
-			'text' => elgg_echo('etherpad:new'),
+			'text' => elgg_echo('etherpad:add'),
 			'link_class' => 'elgg-button elgg-button-action',
 			'priority' => 200,
 	));
