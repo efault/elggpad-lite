@@ -30,7 +30,10 @@ pages_prepare_parent_breadcrumbs($page);
 elgg_push_breadcrumb($title);
 
 $content = elgg_view_entity($page, array('full_view' => true));
-$content .= elgg_view_comments($page);
+if(in_array($page->getSubtype(), array('page', 'page_top')) ||
+elgg_get_plugin_setting('show_comments', 'etherpad') == 'yes'){
+	$content .= elgg_view_comments($page);
+}
 
 if (elgg_get_logged_in_user_guid() == $page->getOwnerGuid()) {
 	$url = "pages/add/$page->guid";
