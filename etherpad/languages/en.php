@@ -13,7 +13,7 @@ $english = array(
 	 
 	'etherpad' => "Collaborative pages",
 	'etherpad:add' => "Add pad",
-	'etherpad:timeline' => 'History',
+	'etherpad:timeslider' => 'History',
 	
 	/**
 	 * River

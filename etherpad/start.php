@@ -107,7 +107,7 @@ function etherpad_page_handler($page, $handler) {
 }
 
 /**
- * Add history to entity menu
+ * Add timeslider to entity menu
  */
 function etherpad_entity_menu($hook, $type, $return, $params) {
 	
@@ -121,11 +121,11 @@ function etherpad_entity_menu($hook, $type, $return, $params) {
 		return $return;
 	}
 	
-	// timeline button
+	// timeslider button
 	$options = array(
-		'name' => 'etherpad-timeline',
-		'text' => elgg_echo('etherpad:timeline'),
-		'href' => elgg_get_site_url() . 'pages/history/' . $entity->guid,
+		'name' => 'etherpad-timeslider',
+		'text' => elgg_echo('etherpad:timeslider'),
+		'href' => elgg_get_site_url() . 'etherpad/history/' . $entity->guid,
 		'priority' => 200,
 	);
 	$return[] = ElggMenuItem::factory($options);

@@ -11,6 +11,7 @@
 
 $full = elgg_extract('full_view', $vars, FALSE);
 $etherpad = elgg_extract('entity', $vars, FALSE);
+$timeslider = elgg_extract('timeslider', $vars, FALSE);
 
 if (!$etherpad || !elgg_instanceof($etherpad, 'object', 'etherpad') && !elgg_instanceof($etherpad, 'object', 'subpad')) {
 	return TRUE;
@@ -67,7 +68,7 @@ if (elgg_in_context('widgets')) {
 
 if ($full) {
 	try {
-		$body .= elgg_view('output/iframe', array('value' => $etherpad->getPadPath(), 'type' => "etherpad"));
+		$body .= elgg_view('output/iframe', array('value' => $etherpad->getPadPath($timeslider), 'type' => "etherpad"));
 	} catch(Exception $e) {
 		$body .= $e->getMessage();
 	}

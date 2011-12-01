@@ -110,6 +110,10 @@ class ElggPad extends ElggObject {
 		return elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/p/". $this->getMetadata('pname');
 	}
 	
+	protected function getTimesliderAddress(){
+		return $this->getAddress() . "/timeslider";
+	}
+	
 	protected function getReadOnlyAddress(){
 		if($this->getMetadata('readOnlyID')){
 			$readonly = $this->getMetadata('readOnlyID');
@@ -119,9 +123,9 @@ class ElggPad extends ElggObject {
 			$this->setMetaData('readOnlyID', $readonly);
 		}
 		return elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/ro/". $readonly;
-	}	
+	}
 	
-	function getPadPath(){
+	function getPadPath($timeslider = false){
 		$settings = array('show_controls', 'monospace_font', 'show_chat', 'line_numbers');
 		
 		if(elgg_is_logged_in()) {
@@ -138,20 +142,22 @@ class ElggPad extends ElggObject {
 			}
 		});
 		
-		$options = array(
+		$options = '?' . http_build_query(array(
 			'userName' => $name,
 			'showControls' => $settings[0],
 			'useMonospaceFont' => $settings[1],
 			'showChat' => $settings[2],
 			'showLineNumbers' => $settings[3],
-		);
+		));
 		
 		$this->startSession();
 		
-		if($this->canEdit()){
-			return $this->getAddress() . '?' . http_build_query($options);
+		if($this->canEdit() && !$timeslider) {
+			return $this->getAddress() . $options;
+		} elseif ($this->canEdit() && $timeslider) {
+			return $this->getTimesliderAddress() . $options;
 		} else {
-			return $this->getReadOnlyAddress(). '?' . http_build_query($options);
+			return $this->getReadOnlyAddress() . $options;
 		}
 	}
 }
