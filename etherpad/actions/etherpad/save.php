@@ -1,95 +1,77 @@
 <?php
+/**
+ * Create or edit a pad
+ *
+ * @package ElggPad
+ */
 
-  elgg_load_library('elgg:etherpad-client');
-  
-  // Etherpad: Create an instance
-  $apikey = elgg_get_plugin_setting('etherpad_key', 'etherpad');
-  $apiurl = elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/api";
-  $instance = new EtherpadLiteClient($apikey,$apiurl);
-  
-  
-try { 
-	//Etherpad: Create a group for elggpad.
-	$mappedGroup = $instance->createGroupIfNotExistsFor("elggpad");//(elgg_get_logged_in_user_entity()->username);
-	$groupID = $mappedGroup->groupID;
-
-	//Etherpad: Create an author(etherpad user) for logged in user
-	$author = $instance->createAuthorIfNotExistsFor(elgg_get_logged_in_user_entity()->username);
-	$authorID = $author->authorID;
-
-	//Etherpad: Create session
-	$validUntil = mktime(0, 0, 0, date("m"), date("d")+1, date("y")); // One day in the future
-	$sessionID = $instance->createSession($groupID, $authorID, $validUntil);
-	$sessionID = $sessionID->sessionID;
-	if(!setcookie("sessionID", $sessionID)){ // Set a cookie
-		throw new Exception();
+$variables = elgg_get_config('etherpad');
+$input = array();
+foreach ($variables as $name => $type) {
+	$input[$name] = get_input($name);
+	if ($name == 'title') {
+		$input[$name] = strip_tags($input[$name]);
 	}
-	
-	//generate pad name
-	function genRandomString() { // A funtion to generate a random name
-		$length = 10;
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-		$string = '';
-		for ($p = 0; $p < $length; $p++) {
-			$string .= $characters[mt_rand(0, strlen($characters))];
-		}
-		return $string;
+	if ($type == 'tags') {
+		$input[$name] = string_to_tag_array($input[$name]);
 	}
-	
-	$name = genRandomString();
-	$padID = $groupID . "$" . $name;
-	
-	//Create new pad
-	//TODO : Access control, private pads. 
-	$instance->createGroupPad($groupID,$name, elgg_get_plugin_setting('new_pad_text', 'etherpad'));
-	
-} catch (Exception $e) {
-	register_error($e->getMessage());
+}
+
+// Get guids
+$page_guid = (int)get_input('page_guid');
+$container_guid = (int)get_input('container_guid');
+$parent_guid = (int)get_input('parent_guid');
+
+elgg_make_sticky_form('etherpad');
+
+if (!$input['title']) {
+	register_error(elgg_echo('pages:error:no_title'));
 	forward(REFERER);
 }
-  
-  // get the form input
-  $title = get_input('title');
-  $padurl = elgg_get_plugin_setting('etherpad_host', 'etherpad') . "/p/". $padID;
-  $body = get_input('description');
-  $tags = string_to_tag_array(get_input('tags'));
-  $access = get_input('access_id');
-  //set etherpad permissions
-  if($access == '2') {
-		$instance->setPublicStatus($padID,"true");
-	} else {
-		$instance->setPublicStatus($padID,"false"); 
-  }
-  // create a new etherpad object
-  $etherpad = new ElggObject();
-  $etherpad->subtype = "etherpad";
-  $etherpad->title = $title;
-  $etherpad->description = $body;
-  $etherpad->paddress = $padurl;
-  $etherpad->access_id = $access;
-  $etherpad->pname = $padID;
-  // owner is logged in user
-  $etherpad->owner_guid = elgg_get_logged_in_user_guid();
-  // save tags as metadata
-  $etherpad->tags = $tags;
-  $guid = get_input('guid');
 
-  // save to database
-  if ($etherpad->save()) {
-	//add to river only if new
-	if ($guid == 0) {
-		add_to_river('river/object/etherpad/create','create', elgg_get_logged_in_user_guid(), $etherpad->getGUID());
-		$etherpad->container_guid = (int)get_input('container_guid', elgg_get_logged_in_user_guid());
+if ($page_guid) {
+	$page = get_entity($page_guid);
+	if (!$page || !$page->canEdit()) {
+		register_error(elgg_echo('pages:error:no_save'));
+		forward(REFERER);
 	}
-	system_message(elgg_echo('etherpad:save:success'));
-	 
-  } else {
-	if (!$etherpad->canEdit()) {
-		system_message(elgg_echo('etherpad:save:failed'));
-		forward(REFERRER);
-	}	
+	$new_page = false;
+} else {
+	$page = new ElggPad();
+	if ($parent_guid) {
+		$page->subtype = 'subpad';
+	}
+	$new_page = true;
 }
-  // forward user to a page that displays the post
-  $instance->deleteSession($sessionID);
-  forward($etherpad->getURL());
-  
+
+if (sizeof($input) > 0) {
+	foreach ($input as $name => $value) {
+		$page->$name = $value;
+	}
+}
+
+// need to add check to make sure user can write to container
+$page->container_guid = $container_guid;
+
+if ($parent_guid) {
+	$page->parent_guid = $parent_guid;
+}
+
+if ($page->save()) {
+
+	elgg_clear_sticky_form('etherpad');
+
+	// Now save description as an annotation
+	//$page->annotate('page', $page->description, $page->access_id);
+
+	system_message(elgg_echo('etherpad:saved'));
+
+	if ($new_page) {
+		add_to_river('river/object/etherpad/create', 'create', elgg_get_logged_in_user_guid(), $page->guid);
+	}
+
+	forward($page->getURL());
+} else {
+	register_error(elgg_echo('etherpad:error:no_save'));
+	forward(REFERER);
+}
