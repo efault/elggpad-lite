@@ -13,11 +13,6 @@ function etherpad_init() {
 	// override pages library
 	elgg_register_library('elgg:pages', elgg_get_plugins_path() . 'etherpad/lib/pages.php');
 	
-	if(elgg_get_plugin_setting('integrate_in_pages', 'etherpad') != 'yes'){
-		$item = new ElggMenuItem('etherpad', elgg_echo('etherpad'), 'etherpad/all');
-		elgg_register_menu_item('site', $item);
-	}
-	
 	$actions_base = elgg_get_plugins_path() . 'etherpad/actions/etherpad';
 	elgg_register_action("etherpad/save", "$actions_base/save.php");
 	elgg_register_action("etherpad/delete", "$actions_base/delete.php");
@@ -46,20 +41,35 @@ function etherpad_init() {
 	//Widget
 	elgg_register_widget_type('etherpad', elgg_echo('etherpad'), elgg_echo('etherpad:profile:widgetdesc'));
 	
-	// Register a URL handler for bookmarks
-	elgg_register_entity_url_handler('object', 'etherpad', 'etherpad_url');
-	elgg_register_entity_url_handler('object', 'subpad', 'etherpad_url');
-	
 	// icon url override
 	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'etherpad_icon_url_override');
+	
+	if(elgg_get_plugin_setting('integrate_in_pages', 'etherpad') != 'yes') {
+		$item = new ElggMenuItem('etherpad', elgg_echo('etherpad'), 'etherpad/all');
+		elgg_register_menu_item('site', $item);
+		
+		elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'etherpad_owner_block_menu');
+		
+		// add to groups
+		add_group_tool_option('etherpad', elgg_echo('groups:enablepads'), true);
+		elgg_extend_view('groups/tool_latest', 'etherpad/group_module');
+		
+		// Register a URL handler for bookmarks
+		elgg_register_entity_url_handler('object', 'etherpad', 'etherpad_url');
+		elgg_register_entity_url_handler('object', 'subpad', 'etherpad_url');
+	} else {
+		// Register a URL handler for bookmarks
+		elgg_register_entity_url_handler('object', 'etherpad', 'pages_url');
+		elgg_register_entity_url_handler('object', 'subpad', 'pages_url');
+	}
 }
 
 
 function etherpad_page_handler($page, $handler) {
 	
-	if($handler == 'pages'){
-		elgg_load_library('elgg:pages');
+	elgg_load_library('elgg:pages');
 	
+	if($handler == 'pages'){	
 		// add the jquery treeview files for navigation
 		elgg_load_js('jquery-treeview');
 		elgg_load_css('jquery-treeview');
@@ -172,11 +182,7 @@ function etherpad_notify_message($hook, $entity_type, $returnvalue, $params) {
  */
 function etherpad_url($entity) {
 	$title = elgg_get_friendly_title($entity->title);
-	if(elgg_get_plugin_setting('integrate_in_pages', 'etherpad') == 'yes'){
-		return "pages/view/$entity->guid/$title";
-	} else {
-		return "etherpad/view/$entity->guid/$title";
-	}
+	return "etherpad/view/$entity->guid/$title";
 }
 
 /**
@@ -197,6 +203,25 @@ function etherpad_icon_url_override($hook, $type, $returnvalue, $params) {
 				break;
 		}
 	}
+}
+
+/**
+ * Add a menu item to the user ownerblock
+ */
+function etherpad_owner_block_menu($hook, $type, $return, $params) {
+	if (elgg_instanceof($params['entity'], 'user')) {
+		$url = "etherpad/owner/{$params['entity']->username}";
+		$item = new ElggMenuItem('etherpad', elgg_echo('etherpad'), $url);
+		$return[] = $item;
+	} else {
+		if ($params['entity']->pages_enable != "no") {
+			$url = "etherpad/group/{$params['entity']->guid}/all";
+			$item = new ElggMenuItem('etherpad', elgg_echo('etherpad:group'), $url);
+			$return[] = $item;
+		}
+	}
+
+	return $return;
 }
 
 /**

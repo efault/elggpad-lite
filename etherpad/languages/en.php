@@ -19,6 +19,9 @@ $english = array(
 	'etherpad:timeslider' => 'History',
 	'etherpad:none' => 'No etherpads created yet',
 	
+	'etherpad:group' => 'Group etherpads',
+	'groups:enablepads' => 'Enable group pads',
+	
 	/**
 	 * River
 	 */
