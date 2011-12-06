@@ -17,12 +17,14 @@ elgg_register_title_button();
 
 $title = elgg_echo('pages:friends');
 
-$content = list_user_friends_objects($owner->guid, array('page_top', 'etherpad'), 10, false);
+$integrate_in_pages = elgg_get_plugin_setting('integrate_in_pages', 'etherpad') == 'yes';
+
+$content = list_user_friends_objects($owner->guid, $integrate_in_pages ? array('page_top', 'etherpad') : 'page_top', 10, false);
 if (!$content) {
 	$content = elgg_echo('pages:none');
 }
 
-if (elgg_is_logged_in()) {
+if ($integrate_in_pages && elgg_is_logged_in()) {
 	$url = "etherpad/add/" . elgg_get_logged_in_user_guid();
 	elgg_register_menu_item('title', array(
 			'name' => 'elggpad',

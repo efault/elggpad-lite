@@ -13,6 +13,11 @@ function etherpad_init() {
 	// override pages library
 	elgg_register_library('elgg:pages', elgg_get_plugins_path() . 'etherpad/lib/pages.php');
 	
+	if(elgg_get_plugin_setting('integrate_in_pages', 'etherpad') != 'yes'){
+		$item = new ElggMenuItem('etherpad', elgg_echo('etherpad'), 'etherpad/all');
+		elgg_register_menu_item('site', $item);
+	}
+	
 	$actions_base = elgg_get_plugins_path() . 'etherpad/actions/etherpad';
 	elgg_register_action("etherpad/save", "$actions_base/save.php");
 	elgg_register_action("etherpad/delete", "$actions_base/delete.php");

@@ -11,9 +11,13 @@ $english = array(
 	 * Menu items and titles
 	 */
 	 
-	'etherpad' => "Collaborative pages",
+	'etherpad' => "Etherpads",
+	'etherpad:owner' => "%s's etherpads",
+	'etherpad:friends' => "Friends' etherpads",
+	'etherpad:all' => "All site etherpads",
 	'etherpad:add' => "Add pad",
 	'etherpad:timeslider' => 'History',
+	'etherpad:none' => 'No etherpads created yet',
 	
 	/**
 	 * River

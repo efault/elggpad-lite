@@ -12,16 +12,18 @@ elgg_push_breadcrumb(elgg_echo('pages'));
 
 elgg_register_title_button();
 
+$integrate_in_pages = elgg_get_plugin_setting('integrate_in_pages', 'etherpad') == 'yes';
+
 $content = elgg_list_entities(array(
 	'types' => 'object',
-	'subtypes' => array('page_top', 'etherpad'),
+	'subtypes' => $integrate_in_pages ? array('page_top', 'etherpad') : 'page_top',
 	'full_view' => false,
 ));
 if (!$content) {
 	$content = '<p>' . elgg_echo('pages:none') . '</p>';
 }
 
-if (elgg_is_logged_in()) {
+if ($integrate_in_pages && elgg_is_logged_in()) {
 	$url = "etherpad/add/" . elgg_get_logged_in_user_guid();
 	elgg_register_menu_item('title', array(
 			'name' => 'elggpad',
