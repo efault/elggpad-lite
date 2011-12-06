@@ -47,8 +47,8 @@ function etherpad_init() {
 	elgg_register_widget_type('etherpad', elgg_echo('etherpad'), elgg_echo('etherpad:profile:widgetdesc'));
 	
 	// Register a URL handler for bookmarks
-	elgg_register_entity_url_handler('object', 'etherpad', 'pages_url');
-	elgg_register_entity_url_handler('object', 'subpad', 'pages_url');
+	elgg_register_entity_url_handler('object', 'etherpad', 'etherpad_url');
+	elgg_register_entity_url_handler('object', 'subpad', 'etherpad_url');
 	
 	// icon url override
 	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'etherpad_icon_url_override');
@@ -159,6 +159,21 @@ function etherpad_notify_message($hook, $entity_type, $returnvalue, $params) {
 		return $owner->name . ' ' . elgg_echo("pages:via") . ': ' . $title . "\n\n" . $descr . "\n\n" . $entity->getURL();
 	}
 	return null;
+}
+
+/**
+ * Override the etherpad url
+ * 
+ * @param ElggObject $entity Pad object
+ * @return string
+ */
+function etherpad_url($entity) {
+	$title = elgg_get_friendly_title($entity->title);
+	if(elgg_get_plugin_setting('integrate_in_pages', 'etherpad') == 'yes'){
+		return "pages/view/$entity->guid/$title";
+	} else {
+		return "etherpad/view/$entity->guid/$title";
+	}
 }
 
 /**
