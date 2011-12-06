@@ -58,6 +58,7 @@ $english = array(
 	'etherpad:showcomments' => "Show comments?",
 	'etherpad:newpadtext' => "New pad text:",
 	'etherpad:pad:message' => 'New pad created successfully.',
+	'etherpad:integrateinpages' => "Integrate pads and pages?",
 	
 	/**
 	 * Widget
