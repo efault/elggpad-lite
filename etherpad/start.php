@@ -57,17 +57,19 @@ function etherpad_init() {
 
 function etherpad_page_handler($page, $handler) {
 	
-	elgg_load_library('elgg:pages');
+	if($handler == 'pages'){
+		elgg_load_library('elgg:pages');
 	
-	// add the jquery treeview files for navigation
-	elgg_load_js('jquery-treeview');
-	elgg_load_css('jquery-treeview');
+		// add the jquery treeview files for navigation
+		elgg_load_js('jquery-treeview');
+		elgg_load_css('jquery-treeview');
+	}
 
 	if (!isset($page[0])) {
 		$page[0] = 'all';
 	}
 
-	elgg_push_breadcrumb(elgg_echo('pages'), 'pages/all');
+	elgg_push_breadcrumb(elgg_echo($handler), "$handler/all");
 
 	$base_dir = elgg_get_plugins_path() . "etherpad/pages/$handler";
 
@@ -127,10 +129,11 @@ function etherpad_entity_menu($hook, $type, $return, $params) {
 	}
 	
 	// timeslider button
+	$handler = elgg_get_plugin_setting('integrate_in_pages', 'etherpad') == 'yes' ? 'pages' : 'etherpad';
 	$options = array(
 		'name' => 'etherpad-timeslider',
 		'text' => elgg_echo('etherpad:timeslider'),
-		'href' => elgg_get_site_url() . 'etherpad/history/' . $entity->guid,
+		'href' => elgg_get_site_url() . "$handler/history/" . $entity->guid,
 		'priority' => 200,
 	);
 	$return[] = ElggMenuItem::factory($options);

@@ -30,7 +30,14 @@ elgg_push_breadcrumb(elgg_echo('pages:history'));
 
 $title = $page->title . ": " . elgg_echo('pages:history');
 
-$content = list_annotations($page_guid, 'page', 20, false);
+if($page->getSubtype() == 'etherpad' || $page->getSubtype() == 'subpad') {
+	$content = elgg_view_entity($page, array(
+		'timeslider' => true,
+		'full_view' => true,
+	));
+} else {
+	$content = list_annotations($page_guid, 'page', 20, false);
+}
 
 $body = elgg_view_layout('content', array(
 	'filter' => '',

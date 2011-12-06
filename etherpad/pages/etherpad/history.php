@@ -1,18 +1,18 @@
 <?php
 /**
- * History of revisions of a page
+ * History of revisions of a pad
  *
- * @package ElggPages
+ * @package ElggPad
  */
 
-$page_guid = get_input('guid');
+$pad_guid = get_input('guid');
 
-$page = get_entity($page_guid);
-if (!$page) {
+$pad = get_entity($pad_guid);
+if (!$pad) {
 
 }
 
-$container = $page->getContainerEntity();
+$container = $pad->getContainerEntity();
 if (!$container) {
 
 }
@@ -20,17 +20,16 @@ if (!$container) {
 elgg_set_page_owner_guid($container->getGUID());
 
 if (elgg_instanceof($container, 'group')) {
-	elgg_push_breadcrumb($container->name, "pages/group/$container->guid/all");
+	elgg_push_breadcrumb($container->name, "etherpad/group/$container->guid/all");
 } else {
-	elgg_push_breadcrumb($container->name, "pages/owner/$container->username");
+	elgg_push_breadcrumb($container->name, "etherpad/owner/$container->username");
 }
-pages_prepare_parent_breadcrumbs($page);
-elgg_push_breadcrumb($page->title, $page->getURL());
+elgg_push_breadcrumb($pad->title, $pad->getURL());
 elgg_push_breadcrumb(elgg_echo('etherpad:timeslider'));
 
-$title = $page->title . ": " . elgg_echo('etherpad:timeslider');
+$title = $pad->title . ": " . elgg_echo('etherpad:timeslider');
 
-$content = elgg_view_entity($page, array(
+$content = elgg_view_entity($pad, array(
 	'timeslider' => true,
 	'full_view' => true,
 ));
@@ -39,7 +38,6 @@ $body = elgg_view_layout('content', array(
 	'filter' => '',
 	'content' => $content,
 	'title' => $title,
-	'sidebar' => elgg_view('pages/sidebar/navigation', array('page' => $page)),
 ));
 
 echo elgg_view_page($title, $body);
