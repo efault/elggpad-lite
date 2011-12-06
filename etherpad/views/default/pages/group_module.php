@@ -7,6 +7,7 @@
 
 
 $group = elgg_get_page_owner_entity();
+$integrate_in_pages = elgg_get_plugin_setting('integrate_in_pages', 'etherpad') == 'yes';
 
 if ($group->pages_enable == "no") {
 	return true;
@@ -22,7 +23,7 @@ $all_link = elgg_view('output/url', array(
 elgg_push_context('widgets');
 $options = array(
 	'type' => 'object',
-	'subtypes' => array('page_top', 'etherpad'),
+	'subtypes' => $integrate_in_pages ? array('page_top', 'etherpad') : 'page_top',
 	'container_guid' => elgg_get_page_owner_guid(),
 	'limit' => 6,
 	'full_view' => false,
@@ -41,11 +42,13 @@ $new_link = elgg_view('output/url', array(
 	'is_trusted' => true,
 ));
 
-$new_link .= ' ' . elgg_view('output/url', array(
-	'href' => "etherpad/add/$group->guid",
-	'text' => elgg_echo('etherpad:add'),
-	'is_trusted' => true,
-));
+if($integrate_in_pages) {
+	$new_link .= ' ' . elgg_view('output/url', array(
+		'href' => "etherpad/add/$group->guid",
+		'text' => elgg_echo('etherpad:add'),
+		'is_trusted' => true,
+	));
+}
 
 echo elgg_view('groups/profile/module', array(
 	'title' => elgg_echo('pages:group'),
