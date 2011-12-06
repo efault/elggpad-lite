@@ -11,6 +11,9 @@ if (!isset($vars['entity']->etherpad_host)) {
 if (!isset($vars['entity']->etherpad_key)) {
 	$vars['entity']->etherpad_key = 'EtherpadFTW';
 }
+if (!isset($vars['entity']->integrate_in_pages)) {
+	$vars['entity']->integrate_in_pages = 'no';
+}
 if (!isset($vars['entity']->show_chat)) {
 	$vars['entity']->show_chat = 'no';
 }
@@ -52,7 +55,19 @@ if (!isset($vars['entity']->new_pad_text)) {
 </div>
 
 <div>
-    <br /><label><?php echo elgg_echo('etherpad:showcontrols'); ?></label><br />
+    <br /><label><?php echo elgg_echo('etherpad:integrateinpages'); ?></label><br />
+    <?php echo elgg_view('input/dropdown', array(
+	'name' => 'params[integrate_in_pages]',
+	'options_values' => array(
+		'no' => elgg_echo('option:no'),
+		'yes' => elgg_echo('option:yes')),
+	'value' => $vars['entity']->integrate_in_pages,
+	));
+    ?>
+</div>
+
+<div>
+    <label><?php echo elgg_echo('etherpad:showcontrols'); ?></label><br />
     <?php echo elgg_view('input/dropdown', array(
 	'name' => 'params[show_controls]',
 	'options_values' => array(
@@ -98,8 +113,6 @@ if (!isset($vars['entity']->new_pad_text)) {
 	));
     ?>
 </div>
-
-
 
 <div>
     <label><?php echo elgg_echo('etherpad:showcomments'); ?></label><br />

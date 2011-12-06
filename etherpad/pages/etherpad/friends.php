@@ -1,8 +1,8 @@
 <?php
 /**
- * Elgg etherpad plugin friends page
+ * List a user's friends' pads
  *
- * @package Elggetherpad
+ * @package ElggPad
  */
 
 $owner = elgg_get_page_owner_entity();
@@ -17,7 +17,7 @@ elgg_register_title_button();
 
 $title = elgg_echo('etherpad:friends');
 
-$content = list_user_friends_objects($owner->guid, 'etherpad', 10, false);
+$content = list_user_friends_objects($owner->guid, array('etherpad', 'subpad'), 10, false);
 if (!$content) {
 	$content = elgg_echo('etherpad:none');
 }

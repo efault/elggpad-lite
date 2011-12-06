@@ -1,51 +1,50 @@
 <?php
 /**
- * Elgg etherpad plugin everyone page
+ * List a user's or group's pads
  *
- * @package etherpad
+ * @package ElggPad
  */
 
-$page_owner = elgg_get_page_owner_entity();
+$owner = elgg_get_page_owner_entity();
+if (!$owner) {
+	forward('etherpad/all');
+}
 
-elgg_push_breadcrumb($page_owner->name);
+// access check for closed groups
+group_gatekeeper();
+
+$title = elgg_echo('etherpad:owner', array($owner->name));
+
+elgg_push_breadcrumb($owner->name);
 
 elgg_register_title_button();
 
-$offset = (int)get_input('offset', 0);
-$content .= elgg_list_entities(array(
-	'type' => 'object',
-	'subtype' => 'etherpad',
-	'container_guid' => $page_owner->guid,
-	'limit' => 10,
-	'offset' => $offset,
+$content = elgg_list_entities(array(
+	'types' => 'object',
+	'subtypes' => array('etherpad', 'subpad'),
+	'container_guid' => elgg_get_page_owner_guid(),
 	'full_view' => false,
-	'view_toggle_type' => false
 ));
-
 if (!$content) {
-	$content = elgg_echo('etherpad:none');
+	$content = '<p>' . elgg_echo('etherpad:none') . '</p>';
 }
 
-$title = elgg_echo('etherpad:owner', array($page_owner->name));
-
 $filter_context = '';
-if ($page_owner->getGUID() == elgg_get_logged_in_user_guid()) {
+if (elgg_get_page_owner_guid() == elgg_get_logged_in_user_guid()) {
 	$filter_context = 'mine';
 }
 
-$vars = array(
+$params = array(
 	'filter_context' => $filter_context,
 	'content' => $content,
 	'title' => $title,
 	'sidebar' => elgg_view('etherpad/sidebar'),
 );
 
-// don't show filter if out of filter context
-if ($page_owner instanceof ElggGroup) {
-	$vars['filter'] = false;
+if (elgg_instanceof($owner, 'group')) {
+	$params['filter'] = '';
 }
 
-$body = elgg_view_layout('content', $vars);
+$body = elgg_view_layout('content', $params);
 
 echo elgg_view_page($title, $body);
-?>

@@ -1,53 +1,53 @@
 <?php
-$title = elgg_extract('title', $vars, '');
-$desc = elgg_extract('description', $vars, '');
-$address = elgg_extract('address', $vars, '');
-$tags = elgg_extract('tags', $vars, '');
-$access_id = elgg_extract('access_id', $vars, ACCESS_DEFAULT);
-$container_guid = elgg_extract('container_guid', $vars);
-$guid = elgg_extract('guid', $vars, null);
+/**
+ * Pad save form body
+ *
+ * @package ElggPad
+ */
 
+$variables = elgg_get_config('etherpad');
+foreach ($variables as $name => $type) {
 ?>
-
 <div>
-    <label><?php echo elgg_echo('etherpad:edit:title'); ?></label><br />
-    <?php echo elgg_view('input/text',array('name' => 'title', 'value' => $title)); ?>
-</div>
-<div>
-    <label><?php echo elgg_echo('etherpad:edit:desc'); ?></label><br />
-    <?php echo elgg_view('input/text',array('name' => 'description', 'value' => $desc)); ?>
-</div> 
-<div>
-    <label><?php echo elgg_echo('etherpad:edit:tags'); ?></label><br />
-    <?php echo elgg_view('input/tags',array('name' => 'tags', 'value' => $tags)); ?>
+	<label><?php echo elgg_echo("etherpad:$name") ?></label>
+	<?php
+		if ($type != 'longtext') {
+			echo '<br />';
+		}
+	?>
+	<?php echo elgg_view("input/$type", array(
+			'name' => $name,
+			'value' => $vars[$name],
+		));
+	?>
 </div>
 <?php
-
-$categories = elgg_view('input/categories', $vars);
-if ($categories) {
-	echo $categories;
 }
 
-?>
-<div>
-<?php echo elgg_view('input/hidden', array('name' => 'container_guid', 'value' => $container_guid));
+$cats = elgg_view('input/categories', $vars);
+if (!empty($cats)) {
+	echo $cats;
+}
 
-if ($guid) {
-	echo elgg_view('input/hidden', array('name' => 'guid', 'value' => $guid));
-} ?>
-</div>
 
-<div>
-    <label><?php echo elgg_echo('access'); ?></label><br />
-    <?php echo elgg_view('input/access', array(
-	'name' => 'access_id',
-	'id' => 'etherpad_access_id',
-	'value' => $vars['access_id']
+echo '<div class="elgg-foot">';
+if ($vars['guid']) {
+	echo elgg_view('input/hidden', array(
+		'name' => 'page_guid',
+		'value' => $vars['guid'],
+	));
+}
+echo elgg_view('input/hidden', array(
+	'name' => 'container_guid',
+	'value' => $vars['container_guid'],
 ));
-    ?>
-</div>
+if ($vars['parent_guid']) {
+	echo elgg_view('input/hidden', array(
+		'name' => 'parent_guid',
+		'value' => $vars['parent_guid'],
+	));
+}
 
-<div>
-<?php echo elgg_view('input/submit', array('value' => elgg_echo('save'))); ?>
-</div>
+echo elgg_view('input/submit', array('value' => elgg_echo('save')));
 
+echo '</div>';
