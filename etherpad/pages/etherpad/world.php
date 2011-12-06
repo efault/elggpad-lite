@@ -1,27 +1,25 @@
 <?php
 /**
- * Elgg etherpad plugin everyone page
+ * List all pads
  *
- * @package etherpad
+ * @package ElggPad
  */
+
+$title = elgg_echo('etherpad:all');
 
 elgg_pop_breadcrumb();
 elgg_push_breadcrumb(elgg_echo('etherpad'));
-elgg_push_breadcrumb(elgg_echo('all'));
+
 elgg_register_title_button();
 
-
-$offset = (int)get_input('offset', 0);
 $content = elgg_list_entities(array(
-	'type' => 'object',
-	'subtype' => 'etherpad',
-	'limit' => 10,
-	'offset' => $offset,
+	'types' => 'object',
+	'subtypes' => array('etherpad', 'subpad'),
 	'full_view' => false,
-	'view_toggle_type' => false
 ));
-
-$title = elgg_echo('etherpad:everyone');
+if (!$content) {
+	$content = '<p>' . elgg_echo('etherpad:none') . '</p>';
+}
 
 $body = elgg_view_layout('content', array(
 	'filter_context' => 'all',
