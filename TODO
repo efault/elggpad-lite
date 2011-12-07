@@ -1,12 +1,5 @@
 TODO:
-
-Major:
-	Group pads, fix group ownership of pads (elgg), fix group module.
-
+	
 Minor:
-	
-	
-Thinking about:
-	Save button, Saves current pad contents to blog/page. 
-		(Will require blog and/or page plugins to be activated) 
-	Passworded pads. 
+	Update spanish language file. 
+	Seperate River calls so pads and collab pages display different text. e.g @blah has created a new pad, @blah has created a new collaborative page.

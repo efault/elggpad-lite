@@ -1,8 +1,9 @@
-elggpad-lite v0.6.0
+elggpad-lite v0.8.0
 
 Requires:
 	elgg 1.8 http://elgg.org/download.php
 	etherpad lite 1.0 http://etherpad.org/download/
+	
 
 Install:
 	Extract plugin. 
@@ -17,6 +18,7 @@ Configure:
 		like a password. The plugin needs this to function correctly, you can find your api key in 
 		etherpad lites root directory in a text file called APIKEY.txt
 	New pad text, this is the text that will be added to each new pad.
+	Integrate pads and pages, Removes normal pad behavior and integrates pads into pages. (Requires pages plugin)  
 	Show controls, show/hide etherpad lites control bar.
 	Show chat, show/hide etherpad lites built in chat service.
 	Show line numbers, show/hide line numbers.
@@ -26,15 +28,15 @@ Configure:
 	Supported languages: English, Spanish.
 	
 Notes: 
+	Huge thanks to Sem for this release, really nice work.  
 	Etherpad Lite is not included in the plugin, you need to install and configure it separately.
 
 Changes:
-	Fixed Etherpad Lite authentication.
-	Pads now support elgg permissions (private, logged in users only, friends, public)
-	Pads can no longer be directly accessed without logging into elgg. (unless public)
-	
-TODO:
+	Pages integration 
 	Group pads.
+	Lots of refactoring.
+	Bug fixes.
+	Plugin name changed from 'elggpad-lite' to 'elggpad' 
 	
 License:
 	GPL version 2, see LICENSE for more details.

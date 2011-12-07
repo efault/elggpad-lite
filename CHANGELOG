@@ -1,3 +1,11 @@
+0.8.0 (Big thanks to Sem)
+Pages integration 
+Group pads.
+Lots of refactoring.
+Bug fixes.
+Plugin name changed from 'elggpad-lite' to 'elggpad'. 
+Changed 'Etherpads' to 'Pads' for consistency. 
+
 0.6.0
 Fixed Etherpad Lite authentication.
 Pads now support elgg permissions (private, logged in users only, friends, public)

@@ -11,15 +11,15 @@ $english = array(
 	 * Menu items and titles
 	 */
 	 
-	'etherpad' => "Etherpads",
-	'etherpad:owner' => "%s's etherpads",
-	'etherpad:friends' => "Friends' etherpads",
-	'etherpad:all' => "All site etherpads",
+	'etherpad' => "Pads",
+	'etherpad:owner' => "%s's pads",
+	'etherpad:friends' => "Friends' pads",
+	'etherpad:all' => "All site pads",
 	'etherpad:add' => "Add pad",
 	'etherpad:timeslider' => 'History',
-	'etherpad:none' => 'No etherpads created yet',
+	'etherpad:none' => 'No pads created yet',
 	
-	'etherpad:group' => 'Group etherpads',
+	'etherpad:group' => 'Group pads',
 	'groups:enablepads' => 'Enable group pads',
 	
 	/**
