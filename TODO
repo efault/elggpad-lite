@@ -1,5 +1,3 @@
 TODO:
-	
-Minor:
-	Update spanish language file. 
-	Seperate River calls so pads and collab pages display different text. e.g @blah has created a new pad, @blah has created a new collaborative page.
+ Update spanish language file.
+ Restore fullscreen button, only when pages integration is disabled.	

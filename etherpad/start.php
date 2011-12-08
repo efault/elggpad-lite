@@ -138,14 +138,16 @@ function etherpad_entity_menu($hook, $type, $return, $params) {
 		return $return;
 	}
 	
-	// timeslider button
+	// timeslider button, show only if pages integration is enabled.
 	$handler = elgg_get_plugin_setting('integrate_in_pages', 'etherpad') == 'yes' ? 'pages' : 'etherpad';
-	$options = array(
-		'name' => 'etherpad-timeslider',
-		'text' => elgg_echo('etherpad:timeslider'),
-		'href' => elgg_get_site_url() . "$handler/history/" . $entity->guid,
-		'priority' => 200,
-	);
+	if($handler == 'pages') {
+		$options = array(
+			'name' => 'etherpad-timeslider',
+			'text' => elgg_echo('etherpad:timeslider'),
+			'href' => elgg_get_site_url() . "$handler/history/" . $entity->guid,
+			'priority' => 200,
+		);
+	} 
 	$return[] = ElggMenuItem::factory($options);
 
 	return $return;

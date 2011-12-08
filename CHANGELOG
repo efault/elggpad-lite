@@ -1,3 +1,8 @@
+0.8.1
+fixed forwarded links. forwards to owners/groups pages when integration is enabled, or pads when not. 
+Changed river message, "created a new collaborative pad" as it works for both pads and collab pages.
+History button now only appears when pages integration is enabled.   
+
 0.8.0 (Big thanks to Sem)
 Pages integration 
 Group pads.
