@@ -147,6 +147,15 @@ function etherpad_entity_menu($hook, $type, $return, $params) {
 			'href' => elgg_get_site_url() . "$handler/history/" . $entity->guid,
 			'priority' => 200,
 		);
+	} else {
+		// fullscreen button
+		$entity = new ElggPad($entity->guid);
+		$options = array(
+			'name' => 'etherpadfs',
+			'text' => elgg_echo('etherpad:fullscreen'),
+			'href' => $entity->getPadPath(),
+			'priority' => 200,
+		);
 	} 
 	$return[] = ElggMenuItem::factory($options);
 

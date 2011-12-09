@@ -1,4 +1,4 @@
-elggpad v0.8.0
+elggpad v0.8.1
 
 Requires:
 	elgg 1.8 http://elgg.org/download.php
@@ -36,7 +36,6 @@ Changes:
 	Group pads.
 	Lots of refactoring.
 	Bug fixes.
-	Plugin name changed from 'elggpad-lite' to 'elggpad' 
 	
 License:
 	GPL version 2, see LICENSE for more details.

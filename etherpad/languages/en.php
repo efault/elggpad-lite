@@ -17,6 +17,7 @@ $english = array(
 	'etherpad:all' => "All site pads",
 	'etherpad:add' => "Add pad",
 	'etherpad:timeslider' => 'History',
+	'etherpad:fullscreen' => 'Fullscreen',
 	'etherpad:none' => 'No pads created yet',
 	
 	'etherpad:group' => 'Group pads',
