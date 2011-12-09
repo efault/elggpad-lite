@@ -2,7 +2,7 @@
 <plugin_manifest xmlns="http://www.elgg.org/plugin_manifest/1.8">
 	<name>elggpad</name>
 	<author>Luke Williams, Lorea</author>
-	<version>0.8.0</version>
+	<version>0.8.1</version>
 	<category>integrations</category>
 	<category>widget</category>
 	<blurb>Etherpad Lite integration.</blurb>
@@ -13,10 +13,10 @@
 		<type>elgg_release</type>
 		<version>1.8</version>
 	</requires>
-	<requires>
+	<suggests>
 		<type>plugin</type>
 		<name>pages</name>
-	</requires>
+	</suggests>
 	<requieres>
 		<type>priority</type>
 		<priority>after</priority>
