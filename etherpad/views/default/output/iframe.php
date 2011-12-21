@@ -9,13 +9,13 @@
  * @uses $vars['type'] type of iframe.
  */
   
-  
+  //This is where theme makers can override iframe dimensions.
   $fullsrc = "\"" . $vars['value'] . "\"";
   $type = $vars['type']; 
   if($type){
     switch($type) {
 	case "etherpad" :
-        	$fullsrc .= " width=728 height=405";
+        	$fullsrc .= " width=728 height=405"; 
         	break;
 	default :
 		break;

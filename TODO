@@ -1,12 +1,2 @@
 TODO:
-
-Major:
-	Group pads, fix group ownership of pads (elgg), fix group module.
-
-Minor:
-	
-	
-Thinking about:
-	Save button, Saves current pad contents to blog/page. 
-		(Will require blog and/or page plugins to be activated) 
-	Passworded pads. 
+ Update spanish language file.

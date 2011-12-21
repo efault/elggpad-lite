@@ -11,26 +11,27 @@ $english = array(
 	 * Menu items and titles
 	 */
 	 
-	'etherpad' => "Etherpads",
-	'etherpad:owner' => "%s's etherpads",
-	'etherpad:friends' => "Friends' etherpads",
-	'etherpad:all' => "All site etherpads",
+	'etherpad' => "Pads",
+	'etherpad:owner' => "%s's pads",
+	'etherpad:friends' => "Friends' pads",
+	'etherpad:all' => "All site pads",
 	'etherpad:add' => "Add pad",
 	'etherpad:timeslider' => 'History',
-	'etherpad:none' => 'No etherpads created yet',
+	'etherpad:fullscreen' => 'Fullscreen',
+	'etherpad:none' => 'No pads created yet',
 	
-	'etherpad:group' => 'Group etherpads',
+	'etherpad:group' => 'Group pads',
 	'groups:enablepads' => 'Enable group pads',
 	
 	/**
 	 * River
 	 */
-	'river:create:object:etherpad' => '%s created a new collaborative page %s',
-	'river:create:object:subpad' => '%s created a new collaborative page %s',
-	'river:update:object:etherpad' => '%s updated the collaborative page %s',
-	'river:update:object:subpad' => '%s updated the collaborative page %s',
-	'river:comment:object:etherpad' => '%s commented on the collaborative page %s',
-	'river:comment:object:subpad' => '%s commented on the collaborative page %s',
+	'river:create:object:etherpad' => '%s created a new collaborative pad %s',
+	'river:create:object:subpad' => '%s created a new collaborative pad %s',
+	'river:update:object:etherpad' => '%s updated the collaborative pad %s',
+	'river:update:object:subpad' => '%s updated the collaborative pad %s',
+	'river:comment:object:etherpad' => '%s commented on the collaborative pad %s',
+	'river:comment:object:subpad' => '%s commented on the collaborative pad %s',
 	
 	'item:object:etherpad' => 'Pads',
 	'item:object:subpad' => 'Subpads',
@@ -65,7 +66,7 @@ $english = array(
 	'etherpad:showcomments' => "Show comments?",
 	'etherpad:newpadtext' => "New pad text:",
 	'etherpad:pad:message' => 'New pad created successfully.',
-	'etherpad:integrateinpages' => "Integrate pads and pages?",
+	'etherpad:integrateinpages' => "Integrate pads and pages? (Requires Pages plugin to be enabled)",
 	
 	/**
 	 * Widget
