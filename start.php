@@ -207,10 +207,10 @@ function etherpad_icon_url_override($hook, $type, $returnvalue, $params) {
 		elgg_instanceof($entity, 'object', 'subpad')) {
 		switch ($params['size']) {
 			case 'small':
-				return 'mod/etherpad/images/etherpad.gif';
+				return 'mod/etherpad/images/etherpad.png';
 				break;
 			case 'medium':
-				return 'mod/etherpad/images/etherpad_lrg.gif';
+				return 'mod/etherpad/images/etherpad_lrg.png';
 				break;
 		}
 	}
