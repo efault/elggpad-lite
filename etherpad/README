@@ -5,7 +5,12 @@ Requires:
 	etherpad lite 1.0 http://etherpad.org/download/
 	
 
-Install:
+Install Etherpad Lite:
+	Run install/INSTALL.sh (as sudo) and follow its instructions.
+	It will install ep-lite dependences (node.js, npm...), install
+	and configure ep-lite and finally create a daemon to manage it.
+
+Install Plugin:
 	Extract plugin. 
 	Copy the etherpad folder and its contents into elgg's mod directory.
 	Enable plugin from admin settings.
