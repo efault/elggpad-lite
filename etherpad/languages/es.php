@@ -1,86 +1,83 @@
 <?php
 /**
- * Etherpads archivo de idioma Español
+ * Etherpads Spanish language file
+ * 
+ * package ElggPad
  */
 
 $spanish = array(
 
 	/**
 	 * Menu items and titles
-	 * Sería mejor cambiar Etherpads por Documentos Colaborativos o algo asi
 	 */
-	'etherpad' => "Etherpads",
-	'etherpad:add' => "Nuevo etherpad",
-	'etherpad:edit' => "Editar etherpad",
-	'etherpad:owner' => "Etherpads de %s",
-	'etherpad:friends' => "Etherpat de Amigos",
-	'etherpad:everyone' => "Todos los etherpads",
-	'etherpad:new' => "Un nuevo etherpad",
-	'etherpad:via' => "v&iacute;a etherpad",
-	'etherpad:address' => "Direcci&oacute;n de etherpad",
-	'etherpad:none' => 'No hay etherpads',
-	'etherpad:write' => 'Agregar etherpad',
-	'etherpad:delete:confirm' => "&iquest;Est&aacute; seguro de eliminar este recurso?",
+	 
+	'etherpad' => "Pads",
+	'etherpad:owner' => "Pads de %s",
+	'etherpad:friends' => "Pads de los amigos",
+	'etherpad:all' => "Todos los pads",
+	'etherpad:add' => "Nuevo pad",
+	'etherpad:timeslider' => 'Historial',
 	'etherpad:fullscreen' => 'Pantalla completa',
-	'etherpad:numbertodisplay' => 'N&uacute;mero de etherpad a mostrar',
-
-	'etherpad:visit' => "Visitar este recurso",
-	'etherpad:recent' => "Etherpad recientes",
-	'etherpad:access:message' => "Por el momento todos los etherpads son p&uacute;blicos. Proximante se podr&aacute; cambiar esto",
-	'river:create:object:etherpad' => '%s ha creado un nuevo etherpad llamado %s',
-	'river:comment:object:etherpad' => '%s comento el etherpad llamado %s',
-	'etherpad:river:annotate' => 'un comentario en este etherpad',
-
-	'item:object:etherpad' => 'Etherpads',
-
-	'etherpad:group' => 'Etherpads del Grupo',
-	'etherpad:enabletherpads' => 'Activar etherpads del grupo',
-	'etherpad:nogroup' => 'Este grupo no tiene etherpads a&uacute;n',
-	'etherpad:more' => 'M&aacute;s etherpads',
-
-	'etherpad:no_title' => 'Sin t&iacute;tulo',
+	'etherpad:none' => 'No se ha creado ningún pad por el momento',
+	
+	'etherpad:group' => 'Pads del grupo',
+	'groups:enablepads' => 'Activar pads del grupo',
+	
+	/**
+	 * River
+	 */
+	'river:create:object:etherpad' => '%s creó un nuevo pad colaborativo %s',
+	'river:create:object:subpad' => '%s creó un nuevo pad colaborativo %s',
+	'river:update:object:etherpad' => '%s actualizó el pad colaborativo %s',
+	'river:update:object:subpad' => '%s actualizó el pad colaborativo %s',
+	'river:comment:object:etherpad' => '%s comentó en el pad colaborativo %s',
+	'river:comment:object:subpad' => '%s comentó en el pad colaborativo %s',
+	
+	'item:object:etherpad' => 'Pads',
+	'item:object:subpad' => 'Subpads',
 
 	/**
 	 * Status messages
 	 */
 
-	'etherpad:save:success' => "El etherpad se guardo correctamente.",
-	'etherpad:delete:success' => "El etherpad se elimin&oacute; correctamente.",
-
-	/**
-	 * Error messages
-	 */
-
-	'etherpad:save:failed' => "El etherpad no se pudo guardar, aseg&uacute;rese que ha introducido el t&iacute;tulo y vuelva a intentarlo",
-	'etherpad:delete:failed' => "Su etherpad no se pudo guardar, int&eacute;ntelo nuevamente.",
+	'etherpad:saved' => "Tu pad ha sido creado satisfactoriamente.",
+	'etherpad:delete:success' => "Tu pad ha sido eliminado satisfactoriamente.",
+	'etherpad:delete:failure' => "Tu pad no pudo ser eliminado. Pruébalo de nuevo más tarde.",
 	
 	/**
 	 * Edit page
 	 */
 	 
-	 'etherpad:edit:title' => "título",
-	 'etherpad:edit:desc' => "descripción",
-	 'etherpad:edit:tags' => "etiquetas",
+	 'etherpad:title' => "Título",
+	 'etherpad:tags' => "Etiquetas",
+	 'etherpad:access_id' => "Acceso a lectura",
+	 'etherpad:write_access_id' => "Acceso a escritura",
 
 	/**
 	 * Admin settings
 	 */
 
-	'etherpad:etherpadhost' => "Direcci&oacute;n del Host de Etherpad Lite",
-	'etherpad:etherpadkey' => "Etherpad lite api key:",
-	'etherpad:showchat' => "&iquest;Mostrar Chat?",
-	'etherpad:linenumbers' => "&iquest;Mostrar n&uacute;mero de l&iacute;neas?",
-	'etherpad:showcontrols' => "&iquest;Mostrar controles?",
-	'etherpad:monospace' => "&iquest;Usar fuentes mono espacio?",
-	'etherpad:showcomments' => "&iquest;Mostrar comentarios?",
-	'etherpad:newpadtext' => "Texo de bienvenida a mostrar dentro de los etherpad nuevos:",
-	'etherpad:pad:message' => 'El nuevo etherpad se ha creado correctamente.',
+	'etherpad:etherpadhost' => "Dirección del host de Etherpad lite:",
+	'etherpad:etherpadkey' => "Api Key de Etherpad lite:",
+	'etherpad:showchat' => "Mostrar chat?",
+	'etherpad:linenumbers' => "Mostar números de línea?",
+	'etherpad:showcontrols' => "Mostrar controles?",
+	'etherpad:monospace' => "Usar fuente monoespacio?",
+	'etherpad:showcomments' => "Mostrar comentarios?",
+	'etherpad:newpadtext' => "Texto de los nuevos pads:",
+	'etherpad:pad:message' => 'Nuevo pad creado satisfactoriamente.',
+	'etherpad:integrateinpages' => "Integrar pads y páginas? (Requirere que el plugin Pages esté activado)",
 	
 	/**
 	 * Widget
 	 */
-	'etherpad:profile:numbertodisplay' => "N&uacute;mero de etherpad a mostrar",
-        'etherpad:profile:widgetdesc' => "Mostrar sus &uacute;ltimos etherpads",
+	'etherpad:profile:numbertodisplay' => "Número de pads a mostar",
+    'etherpad:profile:widgetdesc' => "Muestra tus últimos pads",
+    
+    /**
+	 * Sidebar items
+	 */
+	'etherpad:newchild' => "Crea un sub-pad",
 );
 
 add_translation('es', $spanish);
