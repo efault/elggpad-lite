@@ -1,2 +1,3 @@
 TODO:
- Update spanish language file.
+ Save the pad content in the entity description (use a cron?, a 'save' button?)
+ Create 'input/pad' view to give support to other plugins to do their entities with pad fields.
