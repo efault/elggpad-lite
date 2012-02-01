@@ -18,7 +18,7 @@ $spanish = array(
 	'etherpad:add' => "Nuevo pad",
 	'etherpad:timeslider' => 'Historial',
 	'etherpad:fullscreen' => 'Pantalla completa',
-	'etherpad:none' => 'No se ha creado ningún pad por el momento',
+	'etherpad:none' => 'No se ha creado ningÃºn pad por el momento',
 	
 	'etherpad:group' => 'Pads del grupo',
 	'groups:enablepads' => 'Activar pads del grupo',
@@ -26,12 +26,12 @@ $spanish = array(
 	/**
 	 * River
 	 */
-	'river:create:object:etherpad' => '%s creó un nuevo pad colaborativo %s',
-	'river:create:object:subpad' => '%s creó un nuevo pad colaborativo %s',
-	'river:update:object:etherpad' => '%s actualizó el pad colaborativo %s',
-	'river:update:object:subpad' => '%s actualizó el pad colaborativo %s',
-	'river:comment:object:etherpad' => '%s comentó en el pad colaborativo %s',
-	'river:comment:object:subpad' => '%s comentó en el pad colaborativo %s',
+	'river:create:object:etherpad' => '%s creÃ³ un nuevo pad colaborativo %s',
+	'river:create:object:subpad' => '%s creÃ³ un nuevo pad colaborativo %s',
+	'river:update:object:etherpad' => '%s actualizÃ³ el pad colaborativo %s',
+	'river:update:object:subpad' => '%s actualizÃ³ el pad colaborativo %s',
+	'river:comment:object:etherpad' => '%s comentÃ³ en el pad colaborativo %s',
+	'river:comment:object:subpad' => '%s comentÃ³ en el pad colaborativo %s',
 	
 	'item:object:etherpad' => 'Pads',
 	'item:object:subpad' => 'Subpads',
@@ -42,13 +42,13 @@ $spanish = array(
 
 	'etherpad:saved' => "Tu pad ha sido creado satisfactoriamente.",
 	'etherpad:delete:success' => "Tu pad ha sido eliminado satisfactoriamente.",
-	'etherpad:delete:failure' => "Tu pad no pudo ser eliminado. Pruébalo de nuevo más tarde.",
+	'etherpad:delete:failure' => "Tu pad no pudo ser eliminado. PruÃ©balo de nuevo mÃ¡s tarde.",
 	
 	/**
 	 * Edit page
 	 */
 	 
-	 'etherpad:title' => "Título",
+	 'etherpad:title' => "TÃ­tulo",
 	 'etherpad:tags' => "Etiquetas",
 	 'etherpad:access_id' => "Acceso a lectura",
 	 'etherpad:write_access_id' => "Acceso a escritura",
@@ -57,22 +57,22 @@ $spanish = array(
 	 * Admin settings
 	 */
 
-	'etherpad:etherpadhost' => "Dirección del host de Etherpad lite:",
+	'etherpad:etherpadhost' => "DirecciÃ³n del host de Etherpad lite:",
 	'etherpad:etherpadkey' => "Api Key de Etherpad lite:",
 	'etherpad:showchat' => "Mostrar chat?",
-	'etherpad:linenumbers' => "Mostar números de línea?",
+	'etherpad:linenumbers' => "Mostar nÃºmeros de lÃ­nea?",
 	'etherpad:showcontrols' => "Mostrar controles?",
 	'etherpad:monospace' => "Usar fuente monoespacio?",
 	'etherpad:showcomments' => "Mostrar comentarios?",
 	'etherpad:newpadtext' => "Texto de los nuevos pads:",
 	'etherpad:pad:message' => 'Nuevo pad creado satisfactoriamente.',
-	'etherpad:integrateinpages' => "Integrar pads y páginas? (Requirere que el plugin Pages esté activado)",
+	'etherpad:integrateinpages' => "Integrar pads y pÃ¡ginas? (Requirere que el plugin Pages estÃ© activado)",
 	
 	/**
 	 * Widget
 	 */
-	'etherpad:profile:numbertodisplay' => "Número de pads a mostar",
-    'etherpad:profile:widgetdesc' => "Muestra tus últimos pads",
+	'etherpad:profile:numbertodisplay' => "NÃºmero de pads a mostar",
+    'etherpad:profile:widgetdesc' => "Muestra tus Ãºltimos pads",
     
     /**
 	 * Sidebar items
