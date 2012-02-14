@@ -39,10 +39,10 @@ if (elgg_get_page_owner_guid() == elgg_get_logged_in_user_guid()) {
 $sidebar = elgg_view('pages/sidebar/navigation');
 $sidebar .= elgg_view('pages/sidebar');
 
-if ($integrate_in_pages && elgg_is_logged_in()) {
-	$url = "etherpad/add/" . elgg_get_logged_in_user_guid();
+if ($integrate_in_pages && $owner->canWriteToContainer()) {
+	$url = "etherpad/add/$owner->guid";
 	elgg_register_menu_item('title', array(
-			'name' => 'elggpad',
+			'name' => 'etherpad-add',
 			'href' => $url,
 			'text' => elgg_echo('etherpad:add'),
 			'link_class' => 'elgg-button elgg-button-action',
