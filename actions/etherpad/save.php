@@ -30,7 +30,7 @@ if (!$input['title']) {
 }
 
 if ($page_guid) {
-	$page = get_entity($page_guid);
+	$page = new ElggPad($page_guid);
 	if (!$page || !$page->canEdit()) {
 		register_error(elgg_echo('pages:error:no_save'));
 		forward(REFERER);

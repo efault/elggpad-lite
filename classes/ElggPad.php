@@ -27,19 +27,19 @@ class ElggPad extends ElggObject {
 		
 		try {
 			$sessionID = $this->startSession();
-			
-			$name    = uniqid();
 			$groupID = $this->groupID;
-			$padID   = $groupID . "$" . $name;
 			
-			//Create new pad
-			//TODO : Access control, private pads. 
-			$this->get_pad_client()->createGroupPad($groupID, $name, elgg_get_plugin_setting('new_pad_text', 'etherpad'));
+			// Create a pad if not exists
+			if (!$this->pname) {
+				$name = uniqid();
+				$this->get_pad_client()->createGroupPad($groupID, $name, elgg_get_plugin_setting('new_pad_text', 'etherpad'));
+				$this->setMetaData('pname', $groupID . "$" . $name);
+			}
 			
-			$this->setMetaData('pname', $padID);
+			$padID = $this->getMetadata('pname');
 			
 			//set etherpad permissions
-			if($access == ACCESS_PUBLIC) {
+			if($this->access_id == ACCESS_PUBLIC) {
 				$this->get_pad_client()->setPublicStatus($padID, "true");
 			} else {
 				$this->get_pad_client()->setPublicStatus($padID, "false");
