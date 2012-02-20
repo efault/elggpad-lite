@@ -35,7 +35,7 @@ elgg_get_plugin_setting('show_comments', 'etherpad') == 'yes'){
 	$content .= elgg_view_comments($page);
 }
 
-if (elgg_get_logged_in_user_guid() == $page->getOwnerGuid()) {
+if ($page->canEdit() && $container->canWriteToContainer()) {
 	$url = "pages/add/$page->guid";
 	elgg_register_menu_item('title', array(
 			'name' => 'subpage',
