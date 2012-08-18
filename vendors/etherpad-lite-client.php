@@ -125,10 +125,9 @@ class EtherpadLiteClient {
   }
 
   // this functions helps you to map your application author ids to etherpad lite author ids 
-  public function createAuthorIfNotExistsFor($authorMapper, $name){
+  public function createAuthorIfNotExistsFor($authorID){
     return $this->call("createAuthorIfNotExistsFor", array(
-      "authorMapper" => $authorMapper,
-      "name"         => $name
+      "authorID" => $authorID
     ));
   }
 
